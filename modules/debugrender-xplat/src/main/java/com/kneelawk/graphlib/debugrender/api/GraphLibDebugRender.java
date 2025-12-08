@@ -27,7 +27,7 @@ package com.kneelawk.graphlib.debugrender.api;
 
 import java.util.HashMap;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import com.kneelawk.graphlib.debugrender.api.graph.BlockNodeDebugPacketEncoder;
 import com.kneelawk.graphlib.debugrender.impl.GraphLibDebugRenderImpl;
@@ -45,7 +45,7 @@ public class GraphLibDebugRender {
      * @param typeId     the type id of the block node this encoder should be used to encode.
      * @param encoder    the encoder being registered.
      */
-    public static void registerDebugEncoder(ResourceLocation universeId, ResourceLocation typeId,
+    public static void registerDebugEncoder(Identifier universeId, Identifier typeId,
                                             BlockNodeDebugPacketEncoder encoder) {
         GraphLibDebugRenderImpl.DEBUG_ENCODERS.computeIfAbsent(universeId, _id -> new HashMap<>()).put(typeId, encoder);
     }

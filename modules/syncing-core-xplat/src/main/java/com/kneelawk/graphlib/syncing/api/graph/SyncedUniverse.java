@@ -32,7 +32,7 @@ import com.kneelawk.graphlib.api.graph.GraphUniverse;
 import com.kneelawk.graphlib.api.graph.GraphView;
 import com.kneelawk.graphlib.syncing.api.graph.user.SyncProfile;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 
@@ -46,7 +46,7 @@ public interface SyncedUniverse {
      * @return this universe's unique id.
      */
     @NotNull
-    ResourceLocation getId();
+    Identifier getId();
 
     /**
      * Gets the graph universe that this handler synchronizes.

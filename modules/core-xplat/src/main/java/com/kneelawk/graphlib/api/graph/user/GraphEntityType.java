@@ -2,6 +2,8 @@ package com.kneelawk.graphlib.api.graph.user;
 
 import java.util.function.Supplier;
 
+import com.mojang.serialization.MapCodec;
+
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -9,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import com.kneelawk.graphlib.api.graph.BlockGraph;
 import com.kneelawk.graphlib.api.graph.GraphUniverse;
@@ -27,7 +29,7 @@ public final class GraphEntityType<G extends GraphEntity<G>> implements ObjectTy
      * <b>This requires the {@link GraphUniverse#ATTACHMENT_KEY} attachment.</b>
      */
     public static final Codec<GraphEntityType<?>> REF_CODEC =
-        GraphUniverse.ATTACHMENT_KEY.retrieveWithCodecResult(ResourceLocation.CODEC, (universe, id) -> {
+        GraphUniverse.ATTACHMENT_KEY.retrieveWithCodecResult(Identifier.CODEC, (universe, id) -> {
             GraphEntityType<?> type = universe.getGraphEntityType(id);
             if (type == null) return DataResult.error(
                 () -> "Graph entity type '" + id + "' does not exist in universe '" + universe.getId() + "'");
@@ -58,7 +60,7 @@ public final class GraphEntityType<G extends GraphEntity<G>> implements ObjectTy
         return GraphUniverse.ATTACHMENT_KEY.attachingCodec(universe, refCodec());
     }
 
-    private final @NotNull ResourceLocation id;
+    private final @NotNull Identifier id;
     private final @NotNull GraphEntityFactory factory;
     private final @NotNull Codec<G> codec;
     private final @NotNull GraphEntitySplitter<G> splitter;
@@ -69,7 +71,7 @@ public final class GraphEntityType<G extends GraphEntity<G>> implements ObjectTy
      * @param factory  a factory for creating new graph entities of this type.
      * @param splitter a splitter for splitting graph entities of this type apart.
      */
-    private GraphEntityType(@NotNull ResourceLocation id, @NotNull Codec<G> codec,
+    private GraphEntityType(@NotNull Identifier id, @NotNull Codec<G> codec,
                             @NotNull GraphEntityFactory factory, @NotNull GraphEntitySplitter<G> splitter) {
         this.id = id;
         this.factory = factory;
@@ -83,7 +85,7 @@ public final class GraphEntityType<G extends GraphEntity<G>> implements ObjectTy
      * @return this type's id.
      */
     @Override
-    public @NotNull ResourceLocation getId() {return id;}
+    public @NotNull Identifier getId() {return id;}
 
     /**
      * Gets this type's factory.
@@ -166,7 +168,7 @@ public final class GraphEntityType<G extends GraphEntity<G>> implements ObjectTy
      * @return a new graph entity type.
      */
     @Contract(value = "_, _, _, _ -> new", pure = true)
-    public static <G extends GraphEntity<G>> @NotNull GraphEntityType<G> of(@NotNull ResourceLocation id,
+    public static <G extends GraphEntity<G>> @NotNull GraphEntityType<G> of(@NotNull Identifier id,
                                                                             @NotNull Codec<G> codec,
                                                                             @NotNull GraphEntityFactory factory,
                                                                             @NotNull GraphEntitySplitter<G> splitter) {
@@ -182,9 +184,9 @@ public final class GraphEntityType<G extends GraphEntity<G>> implements ObjectTy
      * @return a new graph entity type.
      */
     @Contract(value = "_, _ -> new", pure = true)
-    public static <G extends GraphEntity<G>> @NotNull GraphEntityType<G> of(@NotNull ResourceLocation id,
+    public static <G extends GraphEntity<G>> @NotNull GraphEntityType<G> of(@NotNull Identifier id,
                                                                             @NotNull Supplier<G> supplier) {
-        return new GraphEntityType<>(id, Codec.unit(supplier), supplier::get,
+        return new GraphEntityType<>(id, MapCodec.unit(supplier).codec(), supplier::get,
             (original, originalGraph, newGraph) -> supplier.get());
     }
 }

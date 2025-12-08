@@ -2,7 +2,7 @@ package com.kneelawk.graphlib.impl.graph.simple;
 
 import org.jetbrains.annotations.NotNull;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import com.kneelawk.graphlib.api.graph.GraphUniverse;
 import com.kneelawk.graphlib.api.world.SaveMode;
@@ -11,7 +11,7 @@ public class SimpleGraphUniverseBuilder implements GraphUniverse.Builder {
     SaveMode saveMode = SaveMode.UNLOAD;
 
     @Override
-    public @NotNull GraphUniverse build(@NotNull ResourceLocation universeId) {
+    public @NotNull GraphUniverse build(@NotNull Identifier universeId) {
         return new SimpleGraphUniverse(universeId, this);
     }
 

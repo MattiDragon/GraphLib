@@ -31,18 +31,18 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
-public record PayloadHeader(ResourceLocation universeId, Int2ObjectMap<ResourceLocation> palette,
+public record PayloadHeader(Identifier universeId, Int2ObjectMap<Identifier> palette,
                             FriendlyByteBuf nodeData) {
     public static PayloadHeader decode(FriendlyByteBuf buf) {
-        ResourceLocation universeId = buf.readResourceLocation();
+        Identifier universeId = buf.readIdentifier();
 
         int paletteLen = buf.readVarInt();
-        Int2ObjectMap<ResourceLocation> palette = new Int2ObjectLinkedOpenHashMap<>();
+        Int2ObjectMap<Identifier> palette = new Int2ObjectLinkedOpenHashMap<>();
         for (int i = 0; i < paletteLen; i++) {
             int key = buf.readVarInt();
-            ResourceLocation value = buf.readResourceLocation();
+            Identifier value = buf.readIdentifier();
             palette.put(key, value);
         }
 
@@ -54,12 +54,12 @@ public record PayloadHeader(ResourceLocation universeId, Int2ObjectMap<ResourceL
     }
 
     public void write(FriendlyByteBuf buf) {
-        buf.writeResourceLocation(universeId);
+        buf.writeIdentifier(universeId);
 
         buf.writeVarInt(palette.size());
-        for (Int2ObjectMap.Entry<ResourceLocation> entry : palette.int2ObjectEntrySet()) {
+        for (Int2ObjectMap.Entry<Identifier> entry : palette.int2ObjectEntrySet()) {
             buf.writeVarInt(entry.getIntKey());
-            buf.writeResourceLocation(entry.getValue());
+            buf.writeIdentifier(entry.getValue());
         }
 
         buf.writeInt(nodeData.readableBytes());

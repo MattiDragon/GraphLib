@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.core.SectionPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
 
@@ -48,7 +48,7 @@ public interface ServerGraphWorldImpl extends GraphWorld, AutoCloseable {
     ServerLevel getWorld();
 
     @Nullable
-    WorldListener getListener(ResourceLocation id);
+    WorldListener getListener(Identifier id);
 
     @Override
     @Nullable

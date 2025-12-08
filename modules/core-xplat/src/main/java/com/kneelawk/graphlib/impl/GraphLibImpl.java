@@ -7,7 +7,7 @@ import com.mojang.brigadier.CommandDispatcher;
 
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import com.kneelawk.graphlib.impl.command.GraphLibCommand;
 import com.kneelawk.graphlib.impl.graph.GraphUniverseImpl;
@@ -16,7 +16,7 @@ public final class GraphLibImpl {
     private GraphLibImpl() {
     }
 
-    public static final Map<ResourceLocation, GraphUniverseImpl> UNIVERSE = new LinkedHashMap<>();
+    public static final Map<Identifier, GraphUniverseImpl> UNIVERSE = new LinkedHashMap<>();
 
     public static void registerCommands(CommandDispatcher<CommandSourceStack> dispatcher,
                                         CommandBuildContext context) {

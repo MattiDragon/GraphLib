@@ -30,19 +30,19 @@ import com.kneelawk.graphlib.debugrender.impl.GraphLibDebugRenderImpl;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
-public record DebuggingStopPayload(ResourceLocation universeId) implements CustomPacketPayload {
+public record DebuggingStopPayload(Identifier universeId) implements CustomPacketPayload {
     public static final Type<DebuggingStopPayload> ID = new Type<>(GraphLibDebugRenderImpl.id("debugging_stop"));
     public static final StreamCodec<FriendlyByteBuf, DebuggingStopPayload> CODEC =
         StreamCodec.ofMember(DebuggingStopPayload::write, DebuggingStopPayload::new);
 
     public DebuggingStopPayload(FriendlyByteBuf buf) {
-        this(buf.readResourceLocation());
+        this(buf.readIdentifier());
     }
 
     public void write(FriendlyByteBuf buf) {
-        buf.writeResourceLocation(universeId);
+        buf.writeIdentifier(universeId);
     }
 
     @Override

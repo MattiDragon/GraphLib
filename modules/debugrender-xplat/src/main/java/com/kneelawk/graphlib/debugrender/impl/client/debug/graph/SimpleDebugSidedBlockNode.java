@@ -32,12 +32,12 @@ import com.kneelawk.graphlib.debugrender.api.graph.SidedDebugBlockNode;
 import com.kneelawk.graphlib.impl.Constants;
 
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public record SimpleDebugSidedBlockNode(int hash, int color, @NotNull Direction side)
     implements DebugBlockNode, SidedDebugBlockNode {
     @Override
-    public @NotNull ResourceLocation getRenderId() {
+    public @NotNull Identifier getRenderId() {
         return Constants.id("simple_sided");
     }
 

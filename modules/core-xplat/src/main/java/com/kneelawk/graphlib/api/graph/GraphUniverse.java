@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 
 import com.kneelawk.codextra.api.attach.AttachmentKey;
@@ -45,7 +45,7 @@ public interface GraphUniverse {
     /**
      * Codec for referencing a graph universe.
      */
-    Codec<GraphUniverse> REF_CODEC = ResourceLocation.CODEC.comapFlatMap(id -> {
+    Codec<GraphUniverse> REF_CODEC = Identifier.CODEC.comapFlatMap(id -> {
         if (!GraphLib.universeExists(id))
             return DataResult.error(() -> "The graph universe '" + id + "' does not exist");
         return DataResult.success(GraphLib.getUniverse(id));
@@ -66,7 +66,7 @@ public interface GraphUniverse {
      * @return this universe's unique id.
      */
     @NotNull
-    ResourceLocation getId();
+    Identifier getId();
 
     /**
      * Gets the save-mode this universe was built with.
@@ -149,7 +149,7 @@ public interface GraphUniverse {
      * @return the block node decoder for the given type id.
      */
     @Nullable
-    BlockNodeType getNodeType(@NotNull ResourceLocation typeId);
+    BlockNodeType getNodeType(@NotNull Identifier typeId);
 
     /**
      * Registers a {@link NodeEntityType}.
@@ -196,7 +196,7 @@ public interface GraphUniverse {
      * @return the node entity decoder for the given type id.
      */
     @Nullable
-    NodeEntityType getNodeEntityType(@NotNull ResourceLocation typeId);
+    NodeEntityType getNodeEntityType(@NotNull Identifier typeId);
 
     /**
      * Registers a {@link LinkKeyType}.
@@ -243,7 +243,7 @@ public interface GraphUniverse {
      * @return the link key decoder for the given type id.
      */
     @Nullable
-    LinkKeyType getLinkKeyType(@NotNull ResourceLocation typeId);
+    LinkKeyType getLinkKeyType(@NotNull Identifier typeId);
 
     /**
      * Registers a {@link LinkEntityType}.
@@ -290,7 +290,7 @@ public interface GraphUniverse {
      * @return the link entity decoder for the given type id.
      */
     @Nullable
-    LinkEntityType getLinkEntityType(@NotNull ResourceLocation typeId);
+    LinkEntityType getLinkEntityType(@NotNull Identifier typeId);
 
     /**
      * Registers a {@link GraphEntityType}.
@@ -328,7 +328,7 @@ public interface GraphUniverse {
      * @return the graph entity type for the given type id.
      */
     @Nullable
-    GraphEntityType<?> getGraphEntityType(@NotNull ResourceLocation typeId);
+    GraphEntityType<?> getGraphEntityType(@NotNull Identifier typeId);
 
     /**
      * Gets all the graph entity types registered.
@@ -393,7 +393,7 @@ public interface GraphUniverse {
      * @param typeId the type id of the block node to get the registration index of.
      * @return the registration index of the given block node type id.
      */
-    int getNodeTypeIndex(@NotNull ResourceLocation typeId);
+    int getNodeTypeIndex(@NotNull Identifier typeId);
 
     /**
      * Gets the number of block node type ids currently registered.
@@ -426,7 +426,7 @@ public interface GraphUniverse {
          * @return the newly created {@link GraphUniverse}.
          */
         @NotNull
-        GraphUniverse build(@NotNull ResourceLocation universeId);
+        GraphUniverse build(@NotNull Identifier universeId);
 
         /**
          * Determines how often graphs and chunks should be saved.

@@ -6,7 +6,7 @@ import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.storage.LevelStorageSource;
 
@@ -22,7 +22,7 @@ public interface GraphUniverseImpl extends GraphUniverse {
     ServerGraphWorldImpl createGraphWorld(LevelStorageSource.LevelStorageAccess session, ServerLevel world, Path path,
                                           boolean syncChunkWrites);
 
-    void addListener(ResourceLocation key, UniverseListener listener);
+    void addListener(Identifier key, UniverseListener listener);
 
     @NotNull
     Set<BlockNode> discoverNodesInBlock(@NotNull ServerLevel world, @NotNull BlockPos pos);

@@ -30,11 +30,11 @@ import org.jetbrains.annotations.NotNull;
 import com.kneelawk.graphlib.debugrender.api.graph.DebugBlockNode;
 import com.kneelawk.graphlib.impl.Constants;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public record SimpleDebugBlockNode(int hash, int color) implements DebugBlockNode {
     @Override
-    public @NotNull ResourceLocation getRenderId() {
+    public @NotNull Identifier getRenderId() {
         return Constants.id("simple");
     }
 }

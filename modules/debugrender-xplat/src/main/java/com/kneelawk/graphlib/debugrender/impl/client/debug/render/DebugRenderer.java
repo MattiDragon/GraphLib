@@ -50,7 +50,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.Vec3;
 
 import com.kneelawk.graphlib.api.util.EmptyLinkKey;
@@ -70,7 +70,7 @@ public final class DebugRenderer {
     /**
      * Map of graph id long to graph for all currently debugging graphs.
      */
-    public static final Map<ResourceLocation, Long2ObjectMap<DebugBlockGraph>> DEBUG_GRAPHS = new LinkedHashMap<>();
+    public static final Map<Identifier, Long2ObjectMap<DebugBlockGraph>> DEBUG_GRAPHS = new LinkedHashMap<>();
 
     private DebugRenderer() {
     }

@@ -30,7 +30,7 @@ import org.jetbrains.annotations.NotNull;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import com.kneelawk.codextra.api.attach.AttachmentKey;
 import com.kneelawk.codextra.api.attach.stream.ChildBufferFactory;
@@ -74,20 +74,20 @@ public final class SyncingKNet {
     private SyncingKNet() {}
 
     /**
-     * Attachment key for a palette of {@link ResourceLocation}s.
+     * Attachment key for a palette of {@link Identifier}s.
      *
      * @deprecated use {@link IdPaletteUtils#ID_PALETTE} instead.
      */
     @Deprecated
-    public static final AttachmentKey<Palette<ResourceLocation>> ID_PALETTE = IdPaletteUtils.ID_PALETTE;
+    public static final AttachmentKey<Palette<Identifier>> ID_PALETTE = IdPaletteUtils.ID_PALETTE;
 
     /**
-     * {@link ResourceLocation} codec that can use an {@link IdPaletteUtils#ID_PALETTE} attachment if present.
+     * {@link Identifier} codec that can use an {@link IdPaletteUtils#ID_PALETTE} attachment if present.
      *
      * @deprecated use {@link IdPaletteUtils#PALETTED_ID_CODEC} instead.
      */
     @Deprecated
-    public static final StreamCodec<FriendlyByteBuf, ResourceLocation> PALETTED_ID_CODEC =
+    public static final StreamCodec<FriendlyByteBuf, Identifier> PALETTED_ID_CODEC =
         IdPaletteUtils.PALETTED_ID_CODEC;
 
     /**
@@ -302,7 +302,7 @@ public final class SyncingKNet {
      * @param universeId the id of the universe to get the KNet synced universe for.
      * @return the KNet synced universe with the given universe id.
      */
-    public static @NotNull KNetSyncedUniverse getUniverse(@NotNull ResourceLocation universeId) {
+    public static @NotNull KNetSyncedUniverse getUniverse(@NotNull Identifier universeId) {
         SyncedUniverse universe = GraphLibSyncing.getUniverse(universeId);
         if (!(universe instanceof KNetSyncedUniverse knet)) throw new IllegalArgumentException(
             "Given universe " + universeId + " is not a KNetSyncedUniverse but is instead a " + universe.getClass());

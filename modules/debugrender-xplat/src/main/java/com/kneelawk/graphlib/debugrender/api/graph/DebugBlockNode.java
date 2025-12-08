@@ -30,7 +30,7 @@ import org.jetbrains.annotations.NotNull;
 import com.kneelawk.graphlib.debugrender.api.client.GraphLibDebugRenderClient;
 import com.kneelawk.graphlib.debugrender.api.client.render.BlockNodeDebugRenderer;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import com.kneelawk.graphlib.api.graph.user.BlockNode;
 
@@ -44,10 +44,10 @@ import com.kneelawk.graphlib.api.graph.user.BlockNode;
 public interface DebugBlockNode {
     /**
      * Gets the id of the renderer registered with
-     * {@link GraphLibDebugRenderClient#registerDebugRenderer(ResourceLocation, ResourceLocation, Class, BlockNodeDebugRenderer)}.
+     * {@link GraphLibDebugRenderClient#registerDebugRenderer(Identifier, Identifier, Class, BlockNodeDebugRenderer)}.
      *
      * @return the id of the renderer to use to render this block node.
      */
     @NotNull
-    ResourceLocation getRenderId();
+    Identifier getRenderId();
 }

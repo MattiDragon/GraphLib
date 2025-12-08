@@ -53,7 +53,7 @@ public class GraphLibFabricMod implements ModInitializer {
                 StorageHelper.getStorage(world).onWorldChunkLoad(chunk.getPos());
             } catch (Exception e) {
                 GLLog.error("Error loading chunk in GraphWorldStorage. World: '{}'/{}, Chunk: {}", world,
-                    world.dimension().location(), chunk.getPos(), e);
+                    world.dimension().identifier(), chunk.getPos(), e);
             }
         });
         ServerChunkEvents.CHUNK_UNLOAD.register((world, chunk) -> {
@@ -63,7 +63,7 @@ public class GraphLibFabricMod implements ModInitializer {
                 storage.onWorldChunkUnload(chunk.getPos());
             } catch (Exception e) {
                 GLLog.error("Error unloading chunk in GraphWorldStorage. World: '{}'/{}, Chunk: {}", world,
-                    world.dimension().location(), chunk.getPos(), e);
+                    world.dimension().identifier(), chunk.getPos(), e);
             }
         });
         ServerTickEvents.END_WORLD_TICK.register(world -> {
@@ -71,7 +71,7 @@ public class GraphLibFabricMod implements ModInitializer {
                 StorageHelper.getStorage(world).tick();
             } catch (Exception e) {
                 GLLog.error("Error ticking GraphWorldStorage. World: '{}'/{}", world,
-                    world.dimension().location(), e);
+                    world.dimension().identifier(), e);
             }
         });
         ServerWorldEvents.UNLOAD.register((server, world) -> {
@@ -79,7 +79,7 @@ public class GraphLibFabricMod implements ModInitializer {
                 StorageHelper.getStorage(world).close();
             } catch (Exception e) {
                 GLLog.error("Error closing GraphWorldStorage. World: '{}'/{}", world,
-                    world.dimension().location(), e);
+                    world.dimension().identifier(), e);
             }
         });
 

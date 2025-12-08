@@ -29,8 +29,8 @@ import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.commands.arguments.ResourceLocationArgument;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.commands.arguments.IdentifierArgument;
+import net.minecraft.resources.Identifier;
 
 import com.kneelawk.commonevents.api.Listen;
 import com.kneelawk.graphlib.api.GraphLib;
@@ -43,20 +43,20 @@ import static net.minecraft.commands.Commands.literal;
 
 public class GraphLibDebugRenderCommand {
     @Listen(InternalEvents.AddUniverseSubcommands.class)
-    public static void addUniverseSubcommands(RequiredArgumentBuilder<CommandSourceStack, ResourceLocation> universe) {
+    public static void addUniverseSubcommands(RequiredArgumentBuilder<CommandSourceStack, Identifier> universe) {
         universe.then(literal("debugrender")
             .then(literal("start")
                 .executes(context -> startDebugRender(context.getSource(),
-                    ResourceLocationArgument.getId(context, "universe")))
+                    IdentifierArgument.getId(context, "universe")))
             )
             .then(literal("stop")
                 .executes(context -> stopDebugRender(context.getSource(),
-                    ResourceLocationArgument.getId(context, "universe")))
+                    IdentifierArgument.getId(context, "universe")))
             )
         );
     }
 
-    private static int startDebugRender(CommandSourceStack source, ResourceLocation universeId)
+    private static int startDebugRender(CommandSourceStack source, Identifier universeId)
         throws CommandSyntaxException {
         if (!GraphLib.universeExists(universeId)) throw GraphLibCommand.UNKNOWN_UNIVERSE.create(universeId);
 
@@ -66,7 +66,7 @@ public class GraphLibDebugRenderCommand {
         return 15;
     }
 
-    private static int stopDebugRender(CommandSourceStack source, ResourceLocation universeId)
+    private static int stopDebugRender(CommandSourceStack source, Identifier universeId)
         throws CommandSyntaxException {
         GLDebugNet.stopDebuggingPlayer(source.getPlayerOrException(), universeId);
         return 15;

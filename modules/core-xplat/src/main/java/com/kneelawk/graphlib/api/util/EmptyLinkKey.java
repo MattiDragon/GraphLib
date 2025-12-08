@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.mojang.serialization.Codec;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import com.kneelawk.graphlib.api.graph.user.LinkKey;
 import com.kneelawk.graphlib.api.graph.user.LinkKeyType;
@@ -20,7 +20,7 @@ public final class EmptyLinkKey implements LinkKey {
     /**
      * The type of the empty link key.
      */
-    public static final ResourceLocation TYPE_ID = Constants.id("empty");
+    public static final Identifier TYPE_ID = Constants.id("empty");
 
     /**
      * The empty link key is a singleton. Here is its instance.

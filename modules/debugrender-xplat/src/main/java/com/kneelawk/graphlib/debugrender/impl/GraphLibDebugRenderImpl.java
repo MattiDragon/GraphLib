@@ -28,7 +28,7 @@ package com.kneelawk.graphlib.debugrender.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -37,17 +37,17 @@ import com.kneelawk.graphlib.debugrender.api.graph.BlockNodeDebugPacketEncoder;
 public class GraphLibDebugRenderImpl {
     public static final String MOD_ID = "graphlib_debugrender";
 
-    public static final Map<ResourceLocation, Map<ResourceLocation, BlockNodeDebugPacketEncoder>> DEBUG_ENCODERS =
+    public static final Map<Identifier, Map<Identifier, BlockNodeDebugPacketEncoder>> DEBUG_ENCODERS =
         new HashMap<>();
 
-    public static @Nullable BlockNodeDebugPacketEncoder getDebugEncoder(ResourceLocation universeId,
-                                                                        ResourceLocation typeId) {
-        Map<ResourceLocation, BlockNodeDebugPacketEncoder> universeDecoders = DEBUG_ENCODERS.get(universeId);
+    public static @Nullable BlockNodeDebugPacketEncoder getDebugEncoder(Identifier universeId,
+                                                                        Identifier typeId) {
+        Map<Identifier, BlockNodeDebugPacketEncoder> universeDecoders = DEBUG_ENCODERS.get(universeId);
         if (universeDecoders == null) return null;
         return universeDecoders.get(typeId);
     }
 
-    public static ResourceLocation id(String path) {
-        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+    public static Identifier id(String path) {
+        return Identifier.fromNamespaceAndPath(MOD_ID, path);
     }
 }

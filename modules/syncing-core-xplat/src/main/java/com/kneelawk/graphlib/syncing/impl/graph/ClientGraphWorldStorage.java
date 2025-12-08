@@ -27,7 +27,7 @@ package com.kneelawk.graphlib.syncing.impl.graph;
 
 import java.util.Map;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 
@@ -40,7 +40,7 @@ import com.kneelawk.graphlib.impl.graph.GraphWorldStorage;
 import com.kneelawk.graphlib.syncing.impl.GraphLibSyncingImpl;
 
 public class ClientGraphWorldStorage implements GraphWorldStorage {
-    private final Map<ResourceLocation, ClientGraphWorldImpl> worlds = new Object2ObjectLinkedOpenHashMap<>();
+    private final Map<Identifier, ClientGraphWorldImpl> worlds = new Object2ObjectLinkedOpenHashMap<>();
     private final Level clientWorld;
 
     public ClientGraphWorldStorage(Level clientWorld, int loadDistance) {
@@ -48,7 +48,7 @@ public class ClientGraphWorldStorage implements GraphWorldStorage {
 
         for (SyncedUniverseImpl universe : GraphLibSyncingImpl.SYNCED_UNIVERSE.values()) {
             if (universe.getSyncProfile().isEnabled()) {
-                ResourceLocation universeId = universe.getId();
+                Identifier universeId = universe.getId();
 
                 worlds.put(universeId, universe.createClientGraphWorld(clientWorld, loadDistance));
             }
@@ -56,7 +56,7 @@ public class ClientGraphWorldStorage implements GraphWorldStorage {
     }
 
     @Override
-    public @NotNull ClientGraphWorldImpl get(@NotNull ResourceLocation universeId) {
+    public @NotNull ClientGraphWorldImpl get(@NotNull Identifier universeId) {
         if (!worlds.containsKey(universeId)) {
             throw new IllegalStateException(
                 "Attempted to get a client graph world for a universe that has not been synchronized. Make sure your universe builder's synchronizeToClient(...) is called with something that allows synchronization. Universe: " +
@@ -67,7 +67,7 @@ public class ClientGraphWorldStorage implements GraphWorldStorage {
     }
 
     @Override
-    public @NotNull Map<ResourceLocation, ClientGraphWorldImpl> getAll() {
+    public @NotNull Map<Identifier, ClientGraphWorldImpl> getAll() {
         return worlds;
     }
 

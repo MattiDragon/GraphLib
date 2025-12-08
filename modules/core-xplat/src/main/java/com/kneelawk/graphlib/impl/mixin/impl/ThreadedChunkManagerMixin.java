@@ -16,14 +16,12 @@ import com.mojang.datafixers.DataFixer;
 
 import net.minecraft.server.level.ChunkMap;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.progress.ChunkProgressListener;
 import net.minecraft.util.thread.BlockableEventLoop;
 import net.minecraft.world.level.TicketStorage;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.chunk.LightChunkGetter;
 import net.minecraft.world.level.entity.ChunkStatusUpdateListener;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
-import net.minecraft.world.level.storage.DimensionDataStorage;
 import net.minecraft.world.level.storage.LevelStorageSource;
 
 import com.kneelawk.graphlib.impl.Constants;
@@ -44,9 +42,8 @@ public class ThreadedChunkManagerMixin implements GraphWorldStorageAccess {
     private void onCreate(ServerLevel serverLevel, LevelStorageSource.LevelStorageAccess levelStorageAccess,
                           DataFixer dataFixer, StructureTemplateManager structureTemplateManager, Executor executor,
                           BlockableEventLoop blockableEventLoop, LightChunkGetter lightChunkGetter,
-                          ChunkGenerator chunkGenerator, ChunkProgressListener chunkProgressListener,
-                          ChunkStatusUpdateListener chunkStatusUpdateListener, Supplier supplier,
-                          TicketStorage ticketStorage, int i, boolean bl, CallbackInfo ci) {
+                          ChunkGenerator chunkGenerator, ChunkStatusUpdateListener chunkStatusUpdateListener,
+                          Supplier supplier, TicketStorage ticketStorage, int i, boolean bl, CallbackInfo ci) {
         storage = new ServerGraphWorldStorage(levelStorageAccess, serverLevel,
             levelStorageAccess.getDimensionPath(serverLevel.dimension()).resolve(Constants.DATA_DIRNAME), bl);
     }
@@ -56,7 +53,7 @@ public class ThreadedChunkManagerMixin implements GraphWorldStorageAccess {
         try {
             storage.saveAll(flush);
         } catch (Exception e) {
-            GLLog.error("Error saving graph world storage. World: '{}'/{}", level, level.dimension().location(),
+            GLLog.error("Error saving graph world storage. World: '{}'/{}", level, level.dimension().identifier(),
                 e);
         }
     }

@@ -27,7 +27,7 @@ package com.kneelawk.graphlib.syncing.knet.api.util;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import com.kneelawk.codextra.api.attach.AttachmentKey;
 import com.kneelawk.codextra.api.attach.stream.ChildBufferFactory;
@@ -45,16 +45,16 @@ public class IdPaletteUtils {
     private IdPaletteUtils() {}
 
     /**
-     * Attachment key for a palette of {@link ResourceLocation}s.
+     * Attachment key for a palette of {@link Identifier}s.
      */
-    public static final AttachmentKey<Palette<ResourceLocation>> ID_PALETTE = AttachmentKey.ofStaticFieldName();
+    public static final AttachmentKey<Palette<Identifier>> ID_PALETTE = AttachmentKey.ofStaticFieldName();
 
     /**
-     * {@link ResourceLocation} codec that can use an {@link #ID_PALETTE} attachment if present.
+     * {@link Identifier} codec that can use an {@link #ID_PALETTE} attachment if present.
      */
-    public static final StreamCodec<FriendlyByteBuf, ResourceLocation> PALETTED_ID_CODEC =
+    public static final StreamCodec<FriendlyByteBuf, Identifier> PALETTED_ID_CODEC =
         ID_PALETTE.dispatchIfPresentStreamCodec(palette -> palette.asCodec("id palette"),
-            ResourceLocation.STREAM_CODEC);
+            Identifier.STREAM_CODEC);
 
     /**
      * Wraps the given {@link StreamCodec} codec in a palette that will be used in both encoding and decoding.
@@ -70,7 +70,7 @@ public class IdPaletteUtils {
      */
     public static <B1 extends FriendlyByteBuf & NetBuf<B1>, B2 extends FriendlyByteBuf, V> StreamCodec<B1, V> attachPalette(
         StreamCodec<? super B2, V> wrappedCodec, ChildBufferFactory<? super B1, B2> childBufferCtor) {
-        return ID_PALETTE.mutReadAttachingStreamCodec(Palette.codec(ResourceLocation.STREAM_CODEC), childBufferCtor,
+        return ID_PALETTE.mutReadAttachingStreamCodec(Palette.codec(Identifier.STREAM_CODEC), childBufferCtor,
             wrappedCodec, obj -> new Palette<>());
     }
 

@@ -28,7 +28,7 @@ package com.kneelawk.graphlib.syncing.lns.api;
 import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import alexiil.mc.lib.net.IMsgReadCtx;
 import alexiil.mc.lib.net.IMsgWriteCtx;
@@ -96,7 +96,7 @@ public final class SyncingLNS {
      * @param universeId the id of the universe to get the LNS synced universe for.
      * @return the LNS synced universe with the given universe id.
      */
-    public static @NotNull LNSSyncedUniverse getUniverse(@NotNull ResourceLocation universeId) {
+    public static @NotNull LNSSyncedUniverse getUniverse(@NotNull Identifier universeId) {
         SyncedUniverse universe = GraphLibSyncing.getUniverse(universeId);
         if (!(universe instanceof LNSSyncedUniverse lns)) throw new IllegalArgumentException(
             "Given universe " + universeId + " is not a LNSSyncedUniverse but is instead a " + universe.getClass());
@@ -186,7 +186,7 @@ public final class SyncingLNS {
         BlockPos pos = buf.readBlockPos();
 
         int idInt = buf.readVarUnsignedInt();
-        ResourceLocation typeId = LNSNetworking.ID_CACHE.getObj(ctx.getConnection(), idInt);
+        Identifier typeId = LNSNetworking.ID_CACHE.getObj(ctx.getConnection(), idInt);
         if (typeId == null) {
             GLLog.warn("Unable to decode block node type id from unknown identifier int {} @ {}", idInt, pos);
             throw new InvalidInputDataException(
@@ -248,7 +248,7 @@ public final class SyncingLNS {
         NodePos second = decodeNodePos(buf, ctx, universe);
 
         int idInt = buf.readVarUnsignedInt();
-        ResourceLocation typeId = LNSNetworking.ID_CACHE.getObj(ctx.getConnection(), idInt);
+        Identifier typeId = LNSNetworking.ID_CACHE.getObj(ctx.getConnection(), idInt);
         if (typeId == null) {
             GLLog.warn("Unable to decode link key type id from unknown identifier int {} @ {}-{}", idInt, first,
                 second);

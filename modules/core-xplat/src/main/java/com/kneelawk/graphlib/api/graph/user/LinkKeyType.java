@@ -27,13 +27,15 @@ package com.kneelawk.graphlib.api.graph.user;
 
 import java.util.function.Supplier;
 
+import com.mojang.serialization.MapCodec;
+
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import com.kneelawk.graphlib.api.graph.GraphUniverse;
 import com.kneelawk.graphlib.api.util.ObjectType;
@@ -48,7 +50,7 @@ public final class LinkKeyType implements ObjectType {
      * <b>This requires the {@link GraphUniverse#ATTACHMENT_KEY} attachment.</b>
      */
     public static final Codec<LinkKeyType> REF_CODEC =
-        GraphUniverse.ATTACHMENT_KEY.retrieveWithCodecResult(ResourceLocation.CODEC, (universe, id) -> {
+        GraphUniverse.ATTACHMENT_KEY.retrieveWithCodecResult(Identifier.CODEC, (universe, id) -> {
             LinkKeyType type = universe.getLinkKeyType(id);
             if (type == null) return DataResult.error(
                 () -> "Link key type '" + id + "' does not exist in universe '" + universe.getId() + "'");
@@ -65,10 +67,10 @@ public final class LinkKeyType implements ObjectType {
         return GraphUniverse.ATTACHMENT_KEY.attachingCodec(universe, REF_CODEC);
     }
 
-    private final @NotNull ResourceLocation id;
+    private final @NotNull Identifier id;
     private final @NotNull Codec<? extends LinkKey> codec;
 
-    private LinkKeyType(@NotNull ResourceLocation id, @NotNull Codec<? extends LinkKey> codec) {
+    private LinkKeyType(@NotNull Identifier id, @NotNull Codec<? extends LinkKey> codec) {
         this.id = id;
         this.codec = codec;
     }
@@ -79,7 +81,7 @@ public final class LinkKeyType implements ObjectType {
      * @return this type's id.
      */
     @Override
-    public @NotNull ResourceLocation getId() {
+    public @NotNull Identifier getId() {
         return id;
     }
 
@@ -120,7 +122,7 @@ public final class LinkKeyType implements ObjectType {
      * @return a new link key type.
      */
     @Contract(value = "_, _ -> new", pure = true)
-    public static @NotNull LinkKeyType of(@NotNull ResourceLocation id, @NotNull Codec<? extends LinkKey> codec) {
+    public static @NotNull LinkKeyType of(@NotNull Identifier id, @NotNull Codec<? extends LinkKey> codec) {
         return new LinkKeyType(id, codec);
     }
 
@@ -132,7 +134,7 @@ public final class LinkKeyType implements ObjectType {
      * @return a new link key type.
      */
     @Contract(value = "_, _ -> new", pure = true)
-    public static @NotNull LinkKeyType of(@NotNull ResourceLocation id, @NotNull Supplier<LinkKey> supplier) {
-        return new LinkKeyType(id, Codec.unit(supplier));
+    public static @NotNull LinkKeyType of(@NotNull Identifier id, @NotNull Supplier<LinkKey> supplier) {
+        return new LinkKeyType(id, MapCodec.unit(supplier).codec());
     }
 }

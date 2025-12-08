@@ -28,7 +28,7 @@ package com.kneelawk.graphlib.impl.event;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import com.kneelawk.commonevents.api.Event;
 
@@ -37,6 +37,6 @@ public class InternalEvents {
         AddUniverseSubcommands.class);
 
     public interface AddUniverseSubcommands {
-        void addUniverseSubcommands(RequiredArgumentBuilder<CommandSourceStack, ResourceLocation> universe);
+        void addUniverseSubcommands(RequiredArgumentBuilder<CommandSourceStack, Identifier> universe);
     }
 }

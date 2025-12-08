@@ -50,7 +50,7 @@ import net.minecraft.nbt.NbtAccounter;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.chunk.storage.RegionStorageInfo;
@@ -123,7 +123,7 @@ public class SimpleServerGraphWorld implements AutoCloseable, GraphWorld, Server
     private final ObjectSet<UpdatePos> connectionUpdates = new ObjectLinkedOpenHashSet<>();
     private final Map<NodePos, CallbackUpdate> callbackUpdates = new Object2ObjectLinkedOpenHashMap<>();
 
-    private final Map<ResourceLocation, WorldListener> listeners = new Object2ObjectLinkedOpenHashMap<>();
+    private final Map<Identifier, WorldListener> listeners = new Object2ObjectLinkedOpenHashMap<>();
 
     private boolean stateDirty = false;
     private long prevGraphId = -1L;
@@ -233,7 +233,7 @@ public class SimpleServerGraphWorld implements AutoCloseable, GraphWorld, Server
     }
 
     @Override
-    public @Nullable WorldListener getListener(ResourceLocation id) {
+    public @Nullable WorldListener getListener(Identifier id) {
         return listeners.get(id);
     }
 
@@ -1538,7 +1538,7 @@ public class SimpleServerGraphWorld implements AutoCloseable, GraphWorld, Server
             "Use the command '/graphlib {} rebuildchunks {} {} {} {} {} {}' in the {} dimension to fix the issue.",
             universe.getId(), affected.getX(),
             affected.getY(), affected.getZ(), affected.getX(), affected.getY(), affected.getZ(),
-            world.dimension().location());
+            world.dimension().identifier());
     }
 
     private sealed interface UpdatePos {}

@@ -27,7 +27,7 @@ package com.kneelawk.graphlib.syncing.api.util;
 
 import org.jetbrains.annotations.NotNull;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import com.kneelawk.graphlib.api.util.ObjectType;
 
@@ -46,7 +46,7 @@ public interface ObjectSyncing<T extends ObjectType> {
     /**
      * {@return the id associated with this syncing type}
      */
-    default ResourceLocation getId() {
+    default Identifier getId() {
         return getType().getId();
     }
 }

@@ -30,19 +30,19 @@ import com.kneelawk.graphlib.debugrender.impl.GraphLibDebugRenderImpl;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
-public record GraphDestroyPayload(ResourceLocation universeId, long graphId) implements CustomPacketPayload {
+public record GraphDestroyPayload(Identifier universeId, long graphId) implements CustomPacketPayload {
     public static final Type<GraphDestroyPayload> ID = new Type<>(GraphLibDebugRenderImpl.id("graph_destroy"));
     public static final StreamCodec<FriendlyByteBuf, GraphDestroyPayload> CODEC =
         StreamCodec.ofMember(GraphDestroyPayload::write, GraphDestroyPayload::new);
 
     public GraphDestroyPayload(FriendlyByteBuf buf) {
-        this(buf.readResourceLocation(), buf.readLong());
+        this(buf.readIdentifier(), buf.readLong());
     }
 
     public void write(FriendlyByteBuf buf) {
-        buf.writeResourceLocation(universeId);
+        buf.writeIdentifier(universeId);
         buf.writeLong(graphId);
     }
 

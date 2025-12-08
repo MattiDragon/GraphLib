@@ -28,7 +28,7 @@ package com.kneelawk.graphlib.syncing.knet.impl.graph.simple;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
@@ -65,7 +65,7 @@ import com.kneelawk.graphlib.syncing.knet.impl.KNetEncoding;
 import com.kneelawk.graphlib.syncing.knet.impl.graph.KNetWorldListener;
 
 public class SimpleKNetSyncedUniverse implements KNetSyncedUniverse, SyncedUniverseImpl {
-    private final ResourceLocation id;
+    private final Identifier id;
     private final GraphUniverse universe;
     private final SyncProfile syncProfile;
 
@@ -88,7 +88,7 @@ public class SimpleKNetSyncedUniverse implements KNetSyncedUniverse, SyncedUnive
     }
 
     @Override
-    public @NotNull ResourceLocation getId() {
+    public @NotNull Identifier getId() {
         return id;
     }
 

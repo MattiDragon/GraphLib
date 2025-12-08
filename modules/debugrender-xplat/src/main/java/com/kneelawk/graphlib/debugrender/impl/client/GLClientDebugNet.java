@@ -32,7 +32,7 @@ import java.util.Set;
 import java.util.concurrent.Executor;
 
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.ChunkPos;
 
 import org.jetbrains.annotations.Nullable;
@@ -108,7 +108,7 @@ public final class GLClientDebugNet {
 
     public static void onGraphDestroy(GraphDestroyPayload payload, Executor clientEx) {
         clientEx.execute(() -> {
-            ResourceLocation universeId = payload.universeId();
+            Identifier universeId = payload.universeId();
             long graphId = payload.graphId();
 
             Long2ObjectMap<DebugBlockGraph> universe = DebugRenderer.DEBUG_GRAPHS.get(universeId);
@@ -131,7 +131,7 @@ public final class GLClientDebugNet {
 
     public static void onDebugginStop(DebuggingStopPayload payload, Executor clientEx) {
         clientEx.execute(() -> {
-            ResourceLocation universeId = payload.universeId();
+            Identifier universeId = payload.universeId();
 
             Long2ObjectMap<DebugBlockGraph> universe = DebugRenderer.DEBUG_GRAPHS.remove(universeId);
 
@@ -157,7 +157,7 @@ public final class GLClientDebugNet {
 
         for (PayloadNode node : payload.nodes()) {
             int nodeTypeInt = node.typeId();
-            ResourceLocation nodeTypeId = header.palette().get(nodeTypeInt);
+            Identifier nodeTypeId = header.palette().get(nodeTypeInt);
             if (nodeTypeId == null) {
                 GLLog.error("Received unknown BlockNode id: {}", nodeTypeInt);
                 return null;
@@ -205,7 +205,7 @@ public final class GLClientDebugNet {
         return new SimpleDebugBlockGraph(header.universeId(), payload.graphId(), graph, chunks);
     }
 
-    private static void addBlockGraph(ResourceLocation universeId, DebugBlockGraph debugGraph) {
+    private static void addBlockGraph(Identifier universeId, DebugBlockGraph debugGraph) {
         Long2ObjectMap<DebugBlockGraph> universe =
             DebugRenderer.DEBUG_GRAPHS.computeIfAbsent(universeId, k -> new Long2ObjectLinkedOpenHashMap<>());
 

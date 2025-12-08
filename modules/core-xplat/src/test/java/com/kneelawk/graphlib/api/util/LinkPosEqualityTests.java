@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import com.kneelawk.graphlib.api.graph.NodeHolder;
 import com.kneelawk.graphlib.api.graph.user.BlockNode;
@@ -22,10 +22,10 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class LinkPosEqualityTests {
     private static final BlockNodeType STRING_NODE_TYPE =
-        BlockNodeType.of(ResourceLocation.fromNamespaceAndPath("test", "string"), StringBlockNode.CODEC);
+        BlockNodeType.of(Identifier.fromNamespaceAndPath("test", "string"), StringBlockNode.CODEC);
 
     private static final LinkKeyType STRING_LINK_TYPE =
-        LinkKeyType.of(ResourceLocation.fromNamespaceAndPath("test", "string"), StringLinkKey.CODEC);
+        LinkKeyType.of(Identifier.fromNamespaceAndPath("test", "string"), StringLinkKey.CODEC);
 
     private record StringBlockNode(String str) implements BlockNode {
         public static final Codec<StringBlockNode> CODEC =

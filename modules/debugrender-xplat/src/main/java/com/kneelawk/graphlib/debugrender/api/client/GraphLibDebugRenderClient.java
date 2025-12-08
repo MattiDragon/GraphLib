@@ -27,7 +27,7 @@ package com.kneelawk.graphlib.debugrender.api.client;
 
 import java.util.HashMap;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import com.kneelawk.graphlib.debugrender.api.GraphLibDebugRender;
 import com.kneelawk.graphlib.debugrender.api.client.render.BlockNodeDebugRenderer;
@@ -48,14 +48,14 @@ public final class GraphLibDebugRenderClient {
      * Registers a {@link BlockNodeDebugPacketDecoder} in the given universe for the given block node type id.
      * <p>
      * Only register a decoder if you also register an encoder with
-     * {@link GraphLibDebugRender#registerDebugEncoder(ResourceLocation, ResourceLocation, BlockNodeDebugPacketEncoder)}
+     * {@link GraphLibDebugRender#registerDebugEncoder(Identifier, Identifier, BlockNodeDebugPacketEncoder)}
      * to provide custom node data to the client.
      *
      * @param universeId the universe this decoder is to be registered under.
      * @param typeId     the block node type id this decoder is to be registered for.
      * @param decoder    the decoder.
      */
-    public static void registerDebugDecoder(ResourceLocation universeId, ResourceLocation typeId,
+    public static void registerDebugDecoder(Identifier universeId, Identifier typeId,
                                             BlockNodeDebugPacketDecoder decoder) {
         GraphLibDebugRenderClientImpl.DEBUG_DECODERS.computeIfAbsent(universeId, _id -> new HashMap<>())
             .put(typeId, decoder);
@@ -73,8 +73,8 @@ public final class GraphLibDebugRenderClient {
      * @param renderer   the renderer.
      * @param <N>        the type of the {@link DebugBlockNode} that this renderer expects.
      */
-    public static <N extends DebugBlockNode> void registerDebugRenderer(ResourceLocation universeId,
-                                                                        ResourceLocation renderId,
+    public static <N extends DebugBlockNode> void registerDebugRenderer(Identifier universeId,
+                                                                        Identifier renderId,
                                                                         Class<N> clazz,
                                                                         BlockNodeDebugRenderer<N> renderer) {
         GraphLibDebugRenderClientImpl.DEBUG_RENDERERS.computeIfAbsent(universeId, _id -> new HashMap<>())
@@ -95,7 +95,7 @@ public final class GraphLibDebugRenderClient {
      * @param renderer the renderer.
      * @param <N>      the type of the {@link DebugBlockNode} that this renderer expects.
      */
-    public static <N extends DebugBlockNode> void registerDebugRendererForAllUniverses(ResourceLocation renderId,
+    public static <N extends DebugBlockNode> void registerDebugRendererForAllUniverses(Identifier renderId,
                                                                                        Class<N> clazz,
                                                                                        BlockNodeDebugRenderer<N> renderer) {
         GraphLibDebugRenderClientImpl.ALL_UNIVERSE_DEBUG_RENDERERS.put(renderId,

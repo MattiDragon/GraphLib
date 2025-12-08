@@ -8,7 +8,7 @@ import io.netty.handler.codec.EncoderException;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import com.kneelawk.codextra.api.CodextraStreams;
 import com.kneelawk.graphlib.api.graph.GraphUniverse;
@@ -19,7 +19,7 @@ import com.kneelawk.knet.api.util.NetRegistryByteBuf;
 
 public class StreamCodecHelper {
     public static <S, T extends ObjectType> StreamCodec<FriendlyByteBuf, S> createRefStreamCodec(
-        BiFunction<GraphUniverse, ResourceLocation, T> typeGetter, BiFunction<KNetSyncedUniverse, T, S> syncingGetter,
+        BiFunction<GraphUniverse, Identifier, T> typeGetter, BiFunction<KNetSyncedUniverse, T, S> syncingGetter,
         Function<S, T> syncingToType, String name) {
         return KNetSyncedUniverse.ATTACHMENT_KEY.retrieveWithStreamCodec(IdPaletteUtils.PALETTED_ID_CODEC,
             (universe, id) -> {

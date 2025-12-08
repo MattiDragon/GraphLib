@@ -32,7 +32,7 @@ import com.mojang.serialization.MapCodec;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -46,7 +46,7 @@ public class MLPlatformImpl implements MLPlatform {
     @Override
     public <T extends Block> Supplier<T> registerBlockWithItem(String path, Function<ResourceKey<Block>, T> creator,
                                                                MapCodec<? extends Block> codec) {
-        ResourceLocation id = id(path);
+        Identifier id = id(path);
         T block = creator.apply(ResourceKey.create(Registries.BLOCK, id));
         MultiblockLampsFabric.BLOCKS.add(new Tuple<>(id, block));
         MultiblockLampsFabric.ITEMS.add(new Tuple<>(id,

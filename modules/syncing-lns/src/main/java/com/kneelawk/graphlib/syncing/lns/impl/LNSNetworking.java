@@ -36,7 +36,7 @@ import org.jetbrains.annotations.Nullable;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
@@ -104,7 +104,7 @@ public final class LNSNetworking {
             }
             return lnsSynced;
         });
-    public static final NetObjectCache<ResourceLocation> ID_CACHE =
+    public static final NetObjectCache<Identifier> ID_CACHE =
         NetObjectCache.createMappedIdentifier(GRAPH_LIB_ID.child("id_cache"), Function.identity(), Function.identity());
 
     public static final ParentNetIdSingle<NodeEntity> NODE_ENTITY_PARENT =
@@ -224,7 +224,7 @@ public final class LNSNetworking {
                 }
 
                 int typeIdInt = buffer.readVarUnsignedInt();
-                ResourceLocation typeId = ID_CACHE.getObj(ctx.getConnection(), typeIdInt);
+                Identifier typeId = ID_CACHE.getObj(ctx.getConnection(), typeIdInt);
                 if (typeId == null) {
                     GLLog.warn("Unable to decode graph entity type id from int {}", typeIdInt);
                     throw new InvalidInputDataException("Unable to decode graph entity type id from int " + typeIdInt);
@@ -253,11 +253,11 @@ public final class LNSNetworking {
         };
 
     public static <T> @NotNull T readType(@NotNull NetByteBuf buf, ActiveConnection conn,
-                                          @NotNull Function<@NotNull ResourceLocation, @Nullable T> typeGetter,
+                                          @NotNull Function<@NotNull Identifier, @Nullable T> typeGetter,
                                           @NotNull String typeName, BlockPos blockPos)
         throws InvalidInputDataException {
         int typeIdInt = buf.readVarUnsignedInt();
-        ResourceLocation typeId = ID_CACHE.getObj(conn, typeIdInt);
+        Identifier typeId = ID_CACHE.getObj(conn, typeIdInt);
         if (typeId == null) {
             GLLog.warn("Unable to decode unknown {} id int: {} @ {}", typeName, typeIdInt, blockPos);
             throw new InvalidInputDataException(
@@ -274,7 +274,7 @@ public final class LNSNetworking {
         return type;
     }
 
-    public static void writeType(@NotNull NetByteBuf buf, @NotNull ActiveConnection conn, ResourceLocation typeId) {
+    public static void writeType(@NotNull NetByteBuf buf, @NotNull ActiveConnection conn, Identifier typeId) {
         buf.writeVarUnsignedInt(ID_CACHE.getId(conn, typeId));
     }
 

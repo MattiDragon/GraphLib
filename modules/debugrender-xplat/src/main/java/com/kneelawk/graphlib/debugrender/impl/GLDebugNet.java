@@ -47,7 +47,7 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.SectionPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -103,7 +103,7 @@ public final class GLDebugNet {
         }
     };
 
-    private static final Multimap<UUID, ResourceLocation> debuggingPlayers = LinkedHashMultimap.create();
+    private static final Multimap<UUID, Identifier> debuggingPlayers = LinkedHashMultimap.create();
 
     public static void onServerStart() {
         debuggingPlayers.clear();
@@ -129,7 +129,7 @@ public final class GLDebugNet {
 
     @Listen(GraphLibEvents.GraphDestroyedListener.class)
     public static void onGraphDestroyed(ServerLevel world, GraphWorld graphWorld, long id) {
-        ResourceLocation universeId = graphWorld.getUniverse().getId();
+        Identifier universeId = graphWorld.getUniverse().getId();
         sendToDebuggingPlayers(world, universeId, new GraphDestroyPayload(universeId, id));
     }
 
@@ -144,7 +144,7 @@ public final class GLDebugNet {
 
         PayloadHeader header = new PayloadHeader(universe.getId(), new Int2ObjectLinkedOpenHashMap<>(),
             new FriendlyByteBuf(Unpooled.buffer()));
-        Object2IntMap<ResourceLocation> paletteLookup = new Object2IntOpenHashMap<>();
+        Object2IntMap<Identifier> paletteLookup = new Object2IntOpenHashMap<>();
 
         MinecraftServer server = world.getServer();
         GraphWorld graphWorld = universe.getGraphWorld(world);
@@ -182,7 +182,7 @@ public final class GLDebugNet {
         GLDRPlatform.INSTANCE.sendPlayPayload(player, payload);
     }
 
-    public static void stopDebuggingPlayer(ServerPlayer player, ResourceLocation universe) {
+    public static void stopDebuggingPlayer(ServerPlayer player, Identifier universe) {
         if (!(player.level() instanceof ServerLevel world)) {
             GLLog.warn("Tried to stop debugging a player with a world that was neither client nor server, but was {}",
                 ClassUtils.classOf(player.level()));
@@ -201,7 +201,7 @@ public final class GLDebugNet {
 
         PayloadHeader header = new PayloadHeader(graphWorld.getUniverse().getId(), new Int2ObjectLinkedOpenHashMap<>(),
             new FriendlyByteBuf(Unpooled.buffer()));
-        Object2IntMap<ResourceLocation> paletteLookup = new Object2IntOpenHashMap<>();
+        Object2IntMap<Identifier> paletteLookup = new Object2IntOpenHashMap<>();
 
         PayloadGraph payloadGraph = encodeBlockGraph(header, paletteLookup, graph);
 
@@ -222,7 +222,7 @@ public final class GLDebugNet {
         }
     }
 
-    private static PayloadGraph encodeBlockGraph(PayloadHeader header, Object2IntMap<ResourceLocation> paletteLookup,
+    private static PayloadGraph encodeBlockGraph(PayloadHeader header, Object2IntMap<Identifier> paletteLookup,
                                                  BlockGraph graph) {
         AtomicInteger index = new AtomicInteger();
         Object2IntMap<NodePos> indexMap = new Object2IntOpenHashMap<>();
@@ -230,7 +230,7 @@ public final class GLDebugNet {
 
         List<PayloadNode> nodes = new ObjectArrayList<>();
         graph.getNodes().forEachOrdered(node -> {
-            ResourceLocation typeId = node.getNode().getType().getId();
+            Identifier typeId = node.getNode().getType().getId();
             int typeIdInt;
             if (paletteLookup.containsKey(typeId)) {
                 typeIdInt = paletteLookup.getInt(typeId);
@@ -272,7 +272,7 @@ public final class GLDebugNet {
         return new PayloadGraph(graph.getId(), nodes, links);
     }
 
-    private static void sendToDebuggingPlayers(ServerLevel world, ResourceLocation universe,
+    private static void sendToDebuggingPlayers(ServerLevel world, Identifier universe,
                                                CustomPacketPayload payload) {
         PlayerList manager = world.getServer().getPlayerList();
         for (UUID playerId : debuggingPlayers.keySet()) {

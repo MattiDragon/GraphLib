@@ -28,7 +28,7 @@ package com.kneelawk.multiblocklamps;
 import java.util.List;
 import java.util.function.Supplier;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -74,7 +74,7 @@ public class MultiblockLamps {
                 connectable.createNodes() : List.of());
     }
 
-    public static ResourceLocation id(String path) {
-        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+    public static Identifier id(String path) {
+        return Identifier.fromNamespaceAndPath(MOD_ID, path);
     }
 }

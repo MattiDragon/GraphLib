@@ -32,7 +32,7 @@ plugins {
 submodule {
     setLibsDirectory()
     applyXplatConnection(":core-xplat")
-    setupJavadoc()
+    //setupJavadoc()
 }
 
 kpublish {

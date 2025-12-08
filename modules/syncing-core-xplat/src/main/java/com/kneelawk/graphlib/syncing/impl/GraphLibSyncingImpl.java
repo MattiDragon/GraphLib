@@ -28,7 +28,7 @@ package com.kneelawk.graphlib.syncing.impl;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.ChunkPos;
@@ -41,7 +41,7 @@ import com.kneelawk.graphlib.impl.mixin.api.StorageHelper;
 import com.kneelawk.graphlib.syncing.impl.graph.SyncedUniverseImpl;
 
 public class GraphLibSyncingImpl {
-    public static final Map<ResourceLocation, SyncedUniverseImpl> SYNCED_UNIVERSE = new LinkedHashMap<>();
+    public static final Map<Identifier, SyncedUniverseImpl> SYNCED_UNIVERSE = new LinkedHashMap<>();
 
     public static void register(SyncedUniverseImpl universe) {
         if (!(universe.getUniverse() instanceof GraphUniverseImpl universeImpl)) throw new IllegalArgumentException(

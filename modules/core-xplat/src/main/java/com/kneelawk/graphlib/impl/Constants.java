@@ -4,7 +4,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public final class Constants {
     private Constants() {
@@ -19,8 +19,8 @@ public final class Constants {
     public static final String UNIVERSE_MODIFY_INITIALIZER = MOD_ID + ":universe_modify";
 
     @Contract(value = "_ -> new", pure = true)
-    public static @NotNull ResourceLocation id(String path) {
-        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+    public static @NotNull Identifier id(String path) {
+        return Identifier.fromNamespaceAndPath(MOD_ID, path);
     }
 
     @Contract(value = "_, _, _ -> new", pure = true)

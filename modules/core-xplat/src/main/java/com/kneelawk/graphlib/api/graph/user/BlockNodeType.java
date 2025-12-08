@@ -27,13 +27,15 @@ package com.kneelawk.graphlib.api.graph.user;
 
 import java.util.function.Supplier;
 
+import com.mojang.serialization.MapCodec;
+
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import com.kneelawk.graphlib.api.graph.GraphUniverse;
 import com.kneelawk.graphlib.api.util.ObjectType;
@@ -48,7 +50,7 @@ public final class BlockNodeType implements ObjectType {
      * <b>This requires the {@link GraphUniverse#ATTACHMENT_KEY} attachment.</b>
      */
     public static final Codec<BlockNodeType> REF_CODEC =
-        GraphUniverse.ATTACHMENT_KEY.retrieveWithCodecResult(ResourceLocation.CODEC, (universe, id) -> {
+        GraphUniverse.ATTACHMENT_KEY.retrieveWithCodecResult(Identifier.CODEC, (universe, id) -> {
             BlockNodeType type = universe.getNodeType(id);
             if (type == null) return DataResult.error(
                 () -> "Block node type '" + id + "' does not exist in universe '" + universe.getId() + "'");
@@ -65,10 +67,10 @@ public final class BlockNodeType implements ObjectType {
         return GraphUniverse.ATTACHMENT_KEY.attachingCodec(universe, REF_CODEC);
     }
 
-    private final @NotNull ResourceLocation id;
+    private final @NotNull Identifier id;
     private final @NotNull Codec<? extends BlockNode> codec;
 
-    private BlockNodeType(@NotNull ResourceLocation id, @NotNull Codec<? extends BlockNode> codec) {
+    private BlockNodeType(@NotNull Identifier id, @NotNull Codec<? extends BlockNode> codec) {
         this.id = id;
         this.codec = codec;
     }
@@ -79,7 +81,7 @@ public final class BlockNodeType implements ObjectType {
      * @return this type's id.
      */
     @Override
-    public @NotNull ResourceLocation getId() {
+    public @NotNull Identifier getId() {
         return id;
     }
 
@@ -120,7 +122,7 @@ public final class BlockNodeType implements ObjectType {
      * @return a new block node type.
      */
     @Contract(value = "_, _ -> new", pure = true)
-    public static @NotNull BlockNodeType of(@NotNull ResourceLocation id, @NotNull Codec<? extends BlockNode> codec) {
+    public static @NotNull BlockNodeType of(@NotNull Identifier id, @NotNull Codec<? extends BlockNode> codec) {
         return new BlockNodeType(id, codec);
     }
 
@@ -132,7 +134,7 @@ public final class BlockNodeType implements ObjectType {
      * @return a new block node type.
      */
     @Contract(value = "_, _ -> new", pure = true)
-    public static @NotNull BlockNodeType of(@NotNull ResourceLocation id, @NotNull Supplier<BlockNode> supplier) {
-        return new BlockNodeType(id, Codec.unit(supplier));
+    public static @NotNull BlockNodeType of(@NotNull Identifier id, @NotNull Supplier<BlockNode> supplier) {
+        return new BlockNodeType(id, MapCodec.unit(supplier).codec());
     }
 }

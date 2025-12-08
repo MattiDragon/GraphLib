@@ -19,7 +19,7 @@ import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.storage.LevelStorageSource;
 
@@ -41,19 +41,19 @@ import com.kneelawk.graphlib.impl.graph.listener.UniverseListener;
 import com.kneelawk.graphlib.impl.mixin.api.StorageHelper;
 
 public class SimpleGraphUniverse implements GraphUniverse, GraphUniverseImpl {
-    private final ResourceLocation id;
+    private final Identifier id;
     private final List<BlockNodeDiscoverer> discoverers = new ArrayList<>();
-    private final Map<ResourceLocation, BlockNodeType> nodeTypes = new LinkedHashMap<>();
-    private final Object2IntMap<ResourceLocation> typeIndices = new Object2IntLinkedOpenHashMap<>();
-    private final Map<ResourceLocation, NodeEntityType> nodeEntityTypes = new LinkedHashMap<>();
-    private final Map<ResourceLocation, LinkKeyType> linkKeyTypes = new LinkedHashMap<>();
-    private final Map<ResourceLocation, LinkEntityType> linkEntityTypes = new LinkedHashMap<>();
-    private final Map<ResourceLocation, GraphEntityType<?>> graphEntityTypes = new LinkedHashMap<>();
+    private final Map<Identifier, BlockNodeType> nodeTypes = new LinkedHashMap<>();
+    private final Object2IntMap<Identifier> typeIndices = new Object2IntLinkedOpenHashMap<>();
+    private final Map<Identifier, NodeEntityType> nodeEntityTypes = new LinkedHashMap<>();
+    private final Map<Identifier, LinkKeyType> linkKeyTypes = new LinkedHashMap<>();
+    private final Map<Identifier, LinkEntityType> linkEntityTypes = new LinkedHashMap<>();
+    private final Map<Identifier, GraphEntityType<?>> graphEntityTypes = new LinkedHashMap<>();
     private final Set<CacheCategory<?>> cacheCategories = new ObjectLinkedOpenHashSet<>();
-    final Map<ResourceLocation, UniverseListener> listeners = new LinkedHashMap<>();
+    final Map<Identifier, UniverseListener> listeners = new LinkedHashMap<>();
     final SaveMode saveMode;
 
-    public SimpleGraphUniverse(ResourceLocation universeId, SimpleGraphUniverseBuilder builder) {
+    public SimpleGraphUniverse(Identifier universeId, SimpleGraphUniverseBuilder builder) {
         this.id = universeId;
         saveMode = builder.saveMode;
 
@@ -66,7 +66,7 @@ public class SimpleGraphUniverse implements GraphUniverse, GraphUniverseImpl {
     }
 
     @Override
-    public @NotNull ResourceLocation getId() {
+    public @NotNull Identifier getId() {
         return id;
     }
 
@@ -139,7 +139,7 @@ public class SimpleGraphUniverse implements GraphUniverse, GraphUniverseImpl {
     }
 
     @Override
-    public int getNodeTypeIndex(@NotNull ResourceLocation typeId) {
+    public int getNodeTypeIndex(@NotNull Identifier typeId) {
         return typeIndices.getInt(typeId);
     }
 
@@ -155,7 +155,7 @@ public class SimpleGraphUniverse implements GraphUniverse, GraphUniverseImpl {
     }
 
     @Override
-    public void addListener(ResourceLocation key, UniverseListener listener) {
+    public void addListener(Identifier key, UniverseListener listener) {
         if (listeners.containsKey(key)) throw new IllegalArgumentException(
             "Attempted to register a listener of type " + key + " with the universe " + id +
                 " but one was already registered.");
@@ -171,27 +171,27 @@ public class SimpleGraphUniverse implements GraphUniverse, GraphUniverseImpl {
     }
 
     @Override
-    public @Nullable BlockNodeType getNodeType(@NotNull ResourceLocation typeId) {
+    public @Nullable BlockNodeType getNodeType(@NotNull Identifier typeId) {
         return nodeTypes.get(typeId);
     }
 
     @Override
-    public @Nullable NodeEntityType getNodeEntityType(@NotNull ResourceLocation typeId) {
+    public @Nullable NodeEntityType getNodeEntityType(@NotNull Identifier typeId) {
         return nodeEntityTypes.get(typeId);
     }
 
     @Override
-    public @Nullable LinkKeyType getLinkKeyType(@NotNull ResourceLocation typeId) {
+    public @Nullable LinkKeyType getLinkKeyType(@NotNull Identifier typeId) {
         return linkKeyTypes.get(typeId);
     }
 
     @Override
-    public @Nullable LinkEntityType getLinkEntityType(@NotNull ResourceLocation typeId) {
+    public @Nullable LinkEntityType getLinkEntityType(@NotNull Identifier typeId) {
         return linkEntityTypes.get(typeId);
     }
 
     @Override
-    public @Nullable GraphEntityType<?> getGraphEntityType(@NotNull ResourceLocation typeId) {
+    public @Nullable GraphEntityType<?> getGraphEntityType(@NotNull Identifier typeId) {
         return graphEntityTypes.get(typeId);
     }
 

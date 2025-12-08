@@ -32,7 +32,7 @@ import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
@@ -48,9 +48,9 @@ import static com.kneelawk.multiblocklamps.MultiblockLamps.CONNECTED_LAMP_BLOCK;
 import static com.kneelawk.multiblocklamps.MultiblockLamps.LAMP_CONNECTOR_BLOCK;
 
 public class MultiblockLampsFabric implements ModInitializer {
-    public static final List<Tuple<ResourceLocation, Block>> BLOCKS = new ObjectArrayList<>();
-    public static final List<Tuple<ResourceLocation, Item>> ITEMS = new ObjectArrayList<>();
-    public static final List<Tuple<ResourceLocation, MapCodec<? extends Block>>> BLOCK_TYPES = new ObjectArrayList<>();
+    public static final List<Tuple<Identifier, Block>> BLOCKS = new ObjectArrayList<>();
+    public static final List<Tuple<Identifier, Item>> ITEMS = new ObjectArrayList<>();
+    public static final List<Tuple<Identifier, MapCodec<? extends Block>>> BLOCK_TYPES = new ObjectArrayList<>();
 
     @Override
     public void onInitialize() {
@@ -68,7 +68,7 @@ public class MultiblockLampsFabric implements ModInitializer {
         MultiblockLamps.initUniverse();
     }
 
-    private static <T> void register(List<Tuple<ResourceLocation, T>> list, Registry<T> registry) {
+    private static <T> void register(List<Tuple<Identifier, T>> list, Registry<T> registry) {
         for (var pair : list) {
             Registry.register(registry, pair.getA(), pair.getB());
         }

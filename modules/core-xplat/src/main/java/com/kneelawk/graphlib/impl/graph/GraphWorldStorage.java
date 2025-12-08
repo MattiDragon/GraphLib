@@ -29,14 +29,14 @@ import java.util.Map;
 
 import org.jetbrains.annotations.NotNull;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import com.kneelawk.graphlib.api.graph.GraphView;
 
 public interface GraphWorldStorage {
     @NotNull
-    GraphView get(@NotNull ResourceLocation universeId);
+    GraphView get(@NotNull Identifier universeId);
 
     @NotNull
-    Map<ResourceLocation, ? extends GraphView> getAll();
+    Map<Identifier, ? extends GraphView> getAll();
 }

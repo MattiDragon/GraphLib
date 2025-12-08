@@ -34,7 +34,7 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.ChunkPos;
 
 import alexiil.mc.lib.net.IMsgReadCtx;
@@ -190,7 +190,7 @@ public final class LNSDecoding {
         int entityCount = buf.readVarUnsignedInt();
         for (int entityIndex = 0; entityIndex < entityCount; entityIndex++) {
             int typeIdInt = buf.readVarUnsignedInt();
-            ResourceLocation typeId = LNSNetworking.ID_CACHE.getObj(ctx.getConnection(), typeIdInt);
+            Identifier typeId = LNSNetworking.ID_CACHE.getObj(ctx.getConnection(), typeIdInt);
             if (typeId == null) {
                 GLLog.warn("Unable to decode graph entity type id int as id. Int: {}", typeIdInt);
                 throw new InvalidInputDataException(

@@ -80,9 +80,9 @@ fun javadoc(enabled: Boolean, name: String) {
 }
 
 val xplat = true
-val mojmap = true
+val mojmap = false
 val fabric = true
-val neoforge = true
+val neoforge = false
 
 module(xplat, "core-xplat")
 module(mojmap, "core-xplat-mojmap")

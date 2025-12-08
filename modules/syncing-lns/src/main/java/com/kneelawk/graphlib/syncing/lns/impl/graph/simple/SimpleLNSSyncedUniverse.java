@@ -31,7 +31,7 @@ import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
@@ -65,7 +65,7 @@ import com.kneelawk.graphlib.syncing.lns.impl.LNSNetworking;
 import com.kneelawk.graphlib.syncing.lns.impl.graph.LNSWorldListener;
 
 public class SimpleLNSSyncedUniverse implements LNSSyncedUniverse, SyncedUniverseImpl {
-    private final ResourceLocation id;
+    private final Identifier id;
     private final GraphUniverse universe;
     private final SyncProfile syncProfile;
 
@@ -88,7 +88,7 @@ public class SimpleLNSSyncedUniverse implements LNSSyncedUniverse, SyncedUnivers
     }
 
     @Override
-    public @NotNull ResourceLocation getId() {
+    public @NotNull Identifier getId() {
         return id;
     }
 
