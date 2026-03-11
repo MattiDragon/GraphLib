@@ -3,7 +3,6 @@
   "package": "com.kneelawk.graphlib.impl.mixin.impl",
   "compatibilityLevel": "JAVA_21",
   "minVersion": "0.8",
-  "refmap": "${refmap}",
   "injectors": {
     "defaultRequire": 1
   },

@@ -40,14 +40,14 @@ public class ChunkSectionUnloadTimer extends ChunkUnloadTimer {
     @Override
     protected void removeUnloadMark(@NotNull ChunkPos pos) {
         for (int y = bottomSectionCoord; y < topSectionCoord; y++) {
-            toUnload.remove(SectionPos.asLong(pos.x, y, pos.z));
+            toUnload.remove(SectionPos.asLong(pos.x(), y, pos.z()));
         }
     }
 
     @Override
     protected void markForUnloading(@NotNull ChunkPos pos) {
         for (int y = bottomSectionCoord; y < topSectionCoord; y++) {
-            long longPos = SectionPos.asLong(pos.x, y, pos.z);
+            long longPos = SectionPos.asLong(pos.x(), y, pos.z());
             if (loadedChunks.contains(longPos)) {
                 toUnload.put(longPos, tickAge + maxAge);
             }
@@ -71,7 +71,7 @@ public class ChunkSectionUnloadTimer extends ChunkUnloadTimer {
      */
     public void onChunkUse(@NotNull SectionPos pos) {
         loadedChunks.add(pos.asLong());
-        if (!worldLoadedChunks.contains(pos.chunk().toLong())) {
+        if (!worldLoadedChunks.contains(pos.chunk().pack())) {
             toUnload.put(pos.asLong(), tickAge + maxAge);
         }
     }

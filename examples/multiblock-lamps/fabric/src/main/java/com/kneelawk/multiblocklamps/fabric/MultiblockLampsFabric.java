@@ -28,7 +28,7 @@ package com.kneelawk.multiblocklamps.fabric;
 import java.util.List;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -60,9 +60,9 @@ public class MultiblockLampsFabric implements ModInitializer {
         register(ITEMS, BuiltInRegistries.ITEM);
         register(BLOCK_TYPES, BuiltInRegistries.BLOCK_TYPE);
 
-        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.REDSTONE_BLOCKS).register(entries -> {
-            entries.accept(CONNECTED_LAMP_BLOCK.get());
-            entries.accept(LAMP_CONNECTOR_BLOCK.get());
+        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.REDSTONE_BLOCKS).register(outpur -> {
+            outpur.accept(CONNECTED_LAMP_BLOCK.get());
+            outpur.accept(LAMP_CONNECTOR_BLOCK.get());
         });
 
         MultiblockLamps.initUniverse();

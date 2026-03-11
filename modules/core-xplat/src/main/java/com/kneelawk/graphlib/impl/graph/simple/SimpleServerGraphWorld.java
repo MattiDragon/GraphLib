@@ -20,6 +20,8 @@ import java.util.regex.Pattern;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
+import com.kneelawk.graphlib.impl.util.GraphGizmo;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -57,7 +59,6 @@ import net.minecraft.world.level.chunk.storage.RegionStorageInfo;
 import net.minecraft.world.level.storage.LevelStorageSource;
 
 import com.kneelawk.codextra.api.attach.AttachmentKey;
-import com.kneelawk.graphlib.api.event.GraphLibEvents;
 import com.kneelawk.graphlib.api.graph.BlockGraph;
 import com.kneelawk.graphlib.api.graph.GraphUniverse;
 import com.kneelawk.graphlib.api.graph.GraphWorld;
@@ -525,7 +526,9 @@ public class SimpleServerGraphWorld implements AutoCloseable, GraphWorld, Server
                 LinkHolder<LinkKey> holder = mergedGraph.link(aHolder, bHolder, key, entity, true);
 
                 // send updated event
-                GraphLibEvents.GRAPH_UPDATED.invoker().graphUpdated(world, this, mergedGraph);
+
+                // port 26.1: Seems unused, and we don't have common-events, so just remove for now
+                //GraphLibEvents.GRAPH_UPDATED.invoker().graphUpdated(world, this, mergedGraph);
 
                 return holder;
             }
@@ -831,7 +834,8 @@ public class SimpleServerGraphWorld implements AutoCloseable, GraphWorld, Server
         loadedGraphs.put(graph.getId(), graph);
 
         // Fire graph created event
-        GraphLibEvents.GRAPH_CREATED.invoker().graphCreated(world, this, graph);
+        // port 26.1: Seems unused, and we don't have common-events, so just remove for now
+        //GraphLibEvents.GRAPH_CREATED.invoker().graphCreated(world, this, graph);
 
         return graph;
     }
@@ -848,7 +852,8 @@ public class SimpleServerGraphWorld implements AutoCloseable, GraphWorld, Server
         destroyGraphImpl(graph);
 
         // Fire the event
-        GraphLibEvents.GRAPH_DESTROYED.invoker().graphDestroyed(world, this, id);
+        // port 26.1: Seems unused, and we don't have common-events, so just remove for now
+        //GraphLibEvents.GRAPH_DESTROYED.invoker().graphDestroyed(world, this, id);
     }
 
     @Override
@@ -911,7 +916,8 @@ public class SimpleServerGraphWorld implements AutoCloseable, GraphWorld, Server
 
     @Override
     public void graphUpdated(SimpleBlockGraph graph) {
-        GraphLibEvents.GRAPH_UPDATED.invoker().graphUpdated(world, this, graph);
+        // port 26.1: Seems unused, and we don't have common-events, so just remove for now
+        //GraphLibEvents.GRAPH_UPDATED.invoker().graphUpdated(world, this, graph);
     }
 
     @Override
@@ -1149,7 +1155,8 @@ public class SimpleServerGraphWorld implements AutoCloseable, GraphWorld, Server
             // Split should never leave graph empty. It also should clean up after itself.
             mergedGraph.split();
         } else {
-            GraphLibEvents.GRAPH_UPDATED.invoker().graphUpdated(world, this, mergedGraph);
+            // port 26.1: Seems unused, and we don't have common-events, so just remove for now
+            //GraphLibEvents.GRAPH_UPDATED.invoker().graphUpdated(world, this, mergedGraph);
         }
     }
 
@@ -1237,7 +1244,7 @@ public class SimpleServerGraphWorld implements AutoCloseable, GraphWorld, Server
 
     private void loadGraphs(@NotNull ChunkPos pos) {
         for (int y = world.getMinSectionY(); y < world.getMaxSectionY(); y++) {
-            SimpleBlockGraphChunk chunk = chunks.getIfExists(SectionPos.of(pos.x, y, pos.z));
+            SimpleBlockGraphChunk chunk = chunks.getIfExists(SectionPos.of(pos.x(), y, pos.z()));
             if (chunk != null) {
                 for (long id : chunk.getGraphs()) {
                     getGraph(id);
@@ -1249,7 +1256,7 @@ public class SimpleServerGraphWorld implements AutoCloseable, GraphWorld, Server
     private void saveGraphs(@NotNull ChunkPos pos) {
         LongSet chunkSectionPillar = new LongOpenHashSet(world.getMaxSectionY() - world.getMinSectionY());
         for (int y = world.getMinSectionY(); y < world.getMaxSectionY(); y++) {
-            chunkSectionPillar.add(SectionPos.asLong(pos.x, y, pos.z));
+            chunkSectionPillar.add(SectionPos.asLong(pos.x(), y, pos.z()));
         }
 
         for (SimpleBlockGraph loadedGraph : loadedGraphs.values()) {
@@ -1283,7 +1290,8 @@ public class SimpleServerGraphWorld implements AutoCloseable, GraphWorld, Server
             for (long id : toUnload) {
                 // unload the graphs
                 SimpleBlockGraph graph = loadedGraphs.remove(id);
-                GraphLibEvents.GRAPH_UNLOADING.invoker().graphUnloading(world, this, graph);
+                // port 26.1: Seems unused, and we don't have common-events, so just remove for now
+                //GraphLibEvents.GRAPH_UNLOADING.invoker().graphUnloading(world, this, graph);
                 graph.onUnload();
                 writeGraph(graph);
                 unsavedGraphs.remove(id);

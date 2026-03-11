@@ -30,13 +30,14 @@ import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.resources.Identifier;
 
-import com.kneelawk.commonevents.api.Event;
+//import com.kneelawk.commonevents.api.Event;
 
+// port 26.1: Seems unused, and we don't have common-events, so just remove for now
 public class InternalEvents {
-    public static final Event<AddUniverseSubcommands> ADD_UNIVERSE_SUBCOMMANDS = Event.createSimple(
-        AddUniverseSubcommands.class);
-
-    public interface AddUniverseSubcommands {
-        void addUniverseSubcommands(RequiredArgumentBuilder<CommandSourceStack, Identifier> universe);
-    }
+//    public static final Event<AddUniverseSubcommands> ADD_UNIVERSE_SUBCOMMANDS = Event.createSimple(
+//        AddUniverseSubcommands.class);
+//
+//    public interface AddUniverseSubcommands {
+//        void addUniverseSubcommands(RequiredArgumentBuilder<CommandSourceStack, Identifier> universe);
+//    }
 }

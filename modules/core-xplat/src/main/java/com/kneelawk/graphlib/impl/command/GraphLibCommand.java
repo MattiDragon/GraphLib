@@ -77,7 +77,8 @@ public class GraphLibCommand {
                     )
                 );
 
-        InternalEvents.ADD_UNIVERSE_SUBCOMMANDS.invoker().addUniverseSubcommands(universeBuilder);
+        // port 26.1: Seems unused, and we don't have common-events, so just remove for now
+        //InternalEvents.ADD_UNIVERSE_SUBCOMMANDS.invoker().addUniverseSubcommands(universeBuilder);
 
         dispatcher.register(literal("graphlib")
             .requires(Commands.hasPermission(new PermissionCheck.Require(Permissions.COMMANDS_GAMEMASTER)))

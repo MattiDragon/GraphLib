@@ -42,7 +42,7 @@ public abstract class ChunkUnloadTimer {
      * @param pos the chunk position of the chunk pillar being loaded.
      */
     public void onWorldChunkLoad(@NotNull ChunkPos pos) {
-        worldLoadedChunks.add(pos.toLong());
+        worldLoadedChunks.add(pos.pack());
         removeUnloadMark(pos);
     }
 
@@ -60,7 +60,7 @@ public abstract class ChunkUnloadTimer {
      * @param pos the chunk position of the chunk pillar being unloaded.
      */
     public void onWorldChunkUnload(@NotNull ChunkPos pos) {
-        worldLoadedChunks.remove(pos.toLong());
+        worldLoadedChunks.remove(pos.pack());
         markForUnloading(pos);
     }
 
@@ -78,7 +78,7 @@ public abstract class ChunkUnloadTimer {
      * @return whether the given world chunk-pillar is loaded.
      */
     public boolean isWorldChunkLoaded(@NotNull ChunkPos pos) {
-        return worldLoadedChunks.contains(pos.toLong());
+        return worldLoadedChunks.contains(pos.pack());
     }
 
     /**

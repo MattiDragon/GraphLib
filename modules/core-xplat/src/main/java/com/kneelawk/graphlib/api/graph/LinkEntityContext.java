@@ -233,9 +233,9 @@ public interface LinkEntityContext {
         if (getBlockWorld() instanceof ServerLevel world) {
             Set<ServerPlayer> players = new ObjectLinkedOpenHashSet<>();
             players.addAll(world.getChunkSource().chunkMap.getPlayers(
-                new ChunkPos(getFirstBlockPos()), false));
+                ChunkPos.containing(getFirstBlockPos()), false));
             players.addAll(world.getChunkSource().chunkMap.getPlayers(
-                new ChunkPos(getSecondBlockPos()), false));
+                ChunkPos.containing(getSecondBlockPos()), false));
             return players;
         } else {
             return List.of();

@@ -117,7 +117,7 @@ public interface NodeEntityContext {
     default @NotNull Collection<ServerPlayer> getTrackingPlayers() {
         if (getBlockWorld() instanceof ServerLevel world) {
             return world.getChunkSource().chunkMap.getPlayers(
-                new ChunkPos(getBlockPos()), false);
+                ChunkPos.containing(getBlockPos()), false);
         } else {
             return List.of();
         }

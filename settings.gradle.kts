@@ -16,6 +16,7 @@ pluginManagement {
             name = "Kneelawk"
         }
         gradlePluginPortal()
+        mavenLocal()
     }
     plugins {
         val loom_version: String by settings

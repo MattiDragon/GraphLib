@@ -119,7 +119,7 @@ public class UnloadingRegionBasedStorage<R> implements RegionBasedStorage<R> {
     public @NotNull R getOrCreate(@NotNull SectionPos pos) {
         ChunkPos chunkPos = pos.chunk();
         timer.onChunkUse(chunkPos);
-        long longPos = chunkPos.toLong();
+        long longPos = chunkPos.pack();
         Int2ObjectMap<R> pillar = loadedChunks.get(longPos);
         if (pillar != null) {
             return pillar.computeIfAbsent(pos.getY(),
@@ -164,7 +164,7 @@ public class UnloadingRegionBasedStorage<R> implements RegionBasedStorage<R> {
     @Override
     public @Nullable R getIfExists(@NotNull SectionPos pos) {
         ChunkPos chunkPos = pos.chunk();
-        Int2ObjectMap<R> pillar = loadedChunks.get(chunkPos.toLong());
+        Int2ObjectMap<R> pillar = loadedChunks.get(chunkPos.pack());
         if (pillar != null) {
             timer.onChunkUse(chunkPos);
             return pillar.get(pos.getY());
@@ -180,7 +180,7 @@ public class UnloadingRegionBasedStorage<R> implements RegionBasedStorage<R> {
                     return pillar.get(pos.getY());
                 } else {
                     timer.onChunkUse(chunkPos);
-                    loadedChunks.put(chunkPos.toLong(), new Int2ObjectOpenHashMap<>());
+                    loadedChunks.put(chunkPos.pack(), new Int2ObjectOpenHashMap<>());
                     return null;
                 }
             } catch (Exception e) {
@@ -192,19 +192,19 @@ public class UnloadingRegionBasedStorage<R> implements RegionBasedStorage<R> {
     }
 
     private CompletableFuture<Void> loadChunkPillar(@NotNull ChunkPos chunkPos) {
-        if (!loadedChunks.containsKey(chunkPos.toLong())) {
+        if (!loadedChunks.containsKey(chunkPos.pack())) {
             // try and load the pillar
             return worker.loadAsync(chunkPos).thenAcceptAsync(root -> {
                 try {
                     // double check that the chunk hasn't already been loaded
-                    if (!loadedChunks.containsKey(chunkPos.toLong())) {
+                    if (!loadedChunks.containsKey(chunkPos.pack())) {
                         if (root.isPresent()) {
                             timer.onChunkUse(chunkPos);
                             Int2ObjectMap<R> pillar = new Int2ObjectOpenHashMap<>();
                             loadChunkPillar(chunkPos, pillar, root.get());
                         } else {
                             timer.onChunkUse(chunkPos);
-                            loadedChunks.put(chunkPos.toLong(), new Int2ObjectOpenHashMap<>());
+                            loadedChunks.put(chunkPos.pack(), new Int2ObjectOpenHashMap<>());
                         }
                     }
                 } catch (Exception e) {
@@ -248,11 +248,11 @@ public class UnloadingRegionBasedStorage<R> implements RegionBasedStorage<R> {
             }
         }
 
-        loadedChunks.put(chunkPos.toLong(), pillar);
+        loadedChunks.put(chunkPos.pack(), pillar);
     }
 
     private void markDirty(ChunkPos pos) {
-        unsavedPillars.add(pos.toLong());
+        unsavedPillars.add(pos.pack());
     }
 
     @Override
@@ -260,11 +260,11 @@ public class UnloadingRegionBasedStorage<R> implements RegionBasedStorage<R> {
         timer.tick();
 
         for (ChunkPos pos : timer.chunksToUnload()) {
-            if (unsavedPillars.contains(pos.toLong())) {
+            if (unsavedPillars.contains(pos.pack())) {
                 saveChunk(pos);
             }
-            unsavedPillars.remove(pos.toLong());
-            loadedChunks.remove(pos.toLong());
+            unsavedPillars.remove(pos.pack());
+            loadedChunks.remove(pos.pack());
             timer.onChunkUnload(pos);
         }
 
@@ -278,7 +278,7 @@ public class UnloadingRegionBasedStorage<R> implements RegionBasedStorage<R> {
 
             LongIterator iter = unsavedPillars.longIterator();
             while (iter.hasNext() && saveCount > 0) {
-                ChunkPos pos = new ChunkPos(iter.nextLong());
+                ChunkPos pos = ChunkPos.unpack(iter.nextLong());
                 saveChunk(pos);
                 iter.remove();
                 saveCount--;
@@ -289,13 +289,13 @@ public class UnloadingRegionBasedStorage<R> implements RegionBasedStorage<R> {
     @Override
     public void saveAll() {
         for (long key : loadedChunks.keySet()) {
-            saveChunk(new ChunkPos(key));
+            saveChunk(ChunkPos.unpack(key));
         }
     }
 
     @Override
     public void saveChunk(@NotNull ChunkPos pos) {
-        Int2ObjectMap<R> sections = loadedChunks.get(pos.toLong());
+        Int2ObjectMap<R> sections = loadedChunks.get(pos.pack());
         if (sections != null && !sections.isEmpty()) {
             CompoundTag root = new CompoundTag();
 

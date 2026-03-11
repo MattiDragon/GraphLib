@@ -27,12 +27,12 @@ public class ChunkPillarUnloadTimer extends ChunkUnloadTimer {
 
     @Override
     protected void removeUnloadMark(@NotNull ChunkPos pos) {
-        toUnload.remove(pos.toLong());
+        toUnload.remove(pos.pack());
     }
 
     @Override
     protected void markForUnloading(@NotNull ChunkPos pos) {
-        toUnload.put(pos.toLong(), tickAge + maxAge);
+        toUnload.put(pos.pack(), tickAge + maxAge);
     }
 
     /**
@@ -41,7 +41,7 @@ public class ChunkPillarUnloadTimer extends ChunkUnloadTimer {
      * @param pos the position of the chunk that was used.
      */
     public void onChunkUse(@NotNull ChunkPos pos) {
-        long longPos = pos.toLong();
+        long longPos = pos.pack();
         if (!worldLoadedChunks.contains(longPos)) {
             toUnload.put(longPos, tickAge + maxAge);
         }
@@ -53,7 +53,7 @@ public class ChunkPillarUnloadTimer extends ChunkUnloadTimer {
      * @param pos the position of the unloaded chunk.
      */
     public void onChunkUnload(@NotNull ChunkPos pos) {
-        toUnload.remove(pos.toLong());
+        toUnload.remove(pos.pack());
     }
 
     /**
@@ -65,7 +65,7 @@ public class ChunkPillarUnloadTimer extends ChunkUnloadTimer {
         return toUnload.keySet()
             .longStream()
             .filter((longPos) -> toUnload.get(longPos) < tickAge)
-            .mapToObj(ChunkPos::new)
+            .mapToObj(ChunkPos::unpack)
             .collect(Collectors.toList());
     }
 }

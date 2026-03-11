@@ -37,7 +37,7 @@ submodule {
 dependencies {
     // Codextra
     val codextra_version: String by project
-    modRuntimeOnly("com.kneelawk.codextra:codextra-fabric:$codextra_version")
+    runtimeOnly("com.kneelawk.codextra:codextra-fabric:$codextra_version")
 
     // KModLib Overlay
 //    val kml_version: String by project
