@@ -22,6 +22,11 @@ import java.util.stream.Stream;
 
 import com.kneelawk.graphlib.impl.util.GraphGizmo;
 
+import net.minecraft.gizmos.GizmoStyle;
+import net.minecraft.gizmos.Gizmos;
+
+import net.minecraft.world.phys.AABB;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -199,6 +204,12 @@ public class SimpleServerGraphWorld implements AutoCloseable, GraphWorld, Server
 
         unloadGraphs();
         saveUnsvedGraphs();
+
+        if (GraphGizmo.GRAPH_ENABLED) {
+            for (var graph : loadedGraphs.values()) {
+                GraphGizmo.renderGraph(graph, universe);
+            }
+        }
     }
 
     @Override
@@ -447,6 +458,12 @@ public class SimpleServerGraphWorld implements AutoCloseable, GraphWorld, Server
         SimpleBlockGraph graph = createGraph(true);
         NodeHolder<BlockNode> node = graph.createNode(pos.pos(), pos.node(), entity, true);
         updateConnectionsImpl(node);
+
+        if (GraphGizmo.UPDATES_ENABLED) {
+            Gizmos.cuboid(AABB.ofSize(GraphGizmo.getNodePos(node, 0.45), 0.3, 0.3, 0.3), GizmoStyle.fill(0xcc00ff00))
+                .setAlwaysOnTop().persistForMillis(1000).fadeOut();
+        }
+
         return node;
     }
 
@@ -463,6 +480,12 @@ public class SimpleServerGraphWorld implements AutoCloseable, GraphWorld, Server
         NodeHolder<BlockNode> node = graph.getNodeAt(pos);
         if (node == null) return false;
         graph.destroyNode(node, true);
+
+        if (GraphGizmo.UPDATES_ENABLED) {
+            Gizmos.cuboid(AABB.ofSize(GraphGizmo.getNodePos(node, 0.45), 0.3, 0.3, 0.3), GizmoStyle.fill(0xccff0000))
+                .setAlwaysOnTop().persistForMillis(1000).fadeOut();
+        }
+
         return true;
     }
 
@@ -956,6 +979,11 @@ public class SimpleServerGraphWorld implements AutoCloseable, GraphWorld, Server
         for (BlockPos pos : nodeUpdates) {
             Set<BlockNode> nodes = universe.discoverNodesInBlock(world, pos);
             onNodesChanged(pos, nodes);
+
+            if (GraphGizmo.UPDATES_ENABLED) {
+                Gizmos.cuboid(pos, GizmoStyle.fill(0xccffffff))
+                    .setAlwaysOnTop().persistForMillis(1000).fadeOut();
+            }
         }
         nodeUpdates.clear();
     }
@@ -966,9 +994,25 @@ public class SimpleServerGraphWorld implements AutoCloseable, GraphWorld, Server
                 for (var node : getNodesAt(blockPos.pos).toList()) {
                     updateConnectionsImpl(node);
                 }
+
+                if (GraphGizmo.UPDATES_ENABLED) {
+                    Gizmos.cuboid(blockPos.pos(), GizmoStyle.fill(0xccffff00))
+                        .setAlwaysOnTop().persistForMillis(1000).fadeOut();
+                }
             } else if (pos instanceof UpdateSidedPos sidedPos) {
                 for (var node : getNodesAt(sidedPos.pos).toList()) {
                     updateConnectionsImpl(node.cast(BlockNode.class));
+                }
+
+                if (GraphGizmo.UPDATES_ENABLED) {
+                    var unitVec3 = sidedPos.pos.side().getUnitVec3();
+                    Gizmos.cuboid(AABB.ofSize(
+                            sidedPos.pos.pos().getCenter().add(unitVec3.scale(0.4)),
+                            1 - unitVec3.x * 0.8,
+                            1 - unitVec3.y * 0.8,
+                            1 - unitVec3.z * 0.8
+                        ), GizmoStyle.fill(0xccffff00))
+                        .setAlwaysOnTop().persistForMillis(1000).fadeOut();
                 }
             }
         }
