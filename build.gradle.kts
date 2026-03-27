@@ -1,7 +1,7 @@
 plugins {
     id("fabric-loom") apply false
-    id("com.kneelawk.submodule") apply false
-    id("com.kneelawk.mojmap") apply false
+    id("net.neoforged.moddev") apply false
+    id("com.kneelawk.submodule.unobf") apply false
     id("com.kneelawk.versioning") apply false
     id("com.kneelawk.kpublish") apply false
 }

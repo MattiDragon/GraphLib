@@ -75,7 +75,7 @@ public class GraphLibNeoForgeMod {
                 StorageHelper.getStorage(world).onWorldChunkLoad(chunk);
             } catch (Exception e) {
                 GLLog.error("Error loading chunk in GraphWorldStorage. World: '{}'/{}, Chunk: {}", world,
-                    world.dimension().location(), chunk, e);
+                    world.dimension().identifier(), chunk, e);
             }
         }
     }
@@ -89,7 +89,7 @@ public class GraphLibNeoForgeMod {
                 storage.onWorldChunkUnload(chunk);
             } catch (Exception e) {
                 GLLog.error("Error unloading chunk in GraphWorldStorage. World: '{}'/{}, Chunk: {}", world,
-                    world.dimension().location(), chunk, e);
+                    world.dimension().identifier(), chunk, e);
             }
         }
     }
@@ -100,7 +100,7 @@ public class GraphLibNeoForgeMod {
                 StorageHelper.getStorage(world).tick();
             } catch (Exception e) {
                 GLLog.error("Error ticking GraphWorldStorage. World: '{}'/{}", world,
-                    world.dimension().location(),
+                    world.dimension().identifier(),
                     e);
             }
         }
@@ -111,7 +111,7 @@ public class GraphLibNeoForgeMod {
             try {
                 StorageHelper.getStorage(world).close();
             } catch (Exception e) {
-                GLLog.error("Error closing GraphWorldStorage. World: '{}'/{}", world, world.dimension().location(),
+                GLLog.error("Error closing GraphWorldStorage. World: '{}'/{}", world, world.dimension().identifier(),
                     e);
             }
         }

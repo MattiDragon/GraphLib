@@ -23,14 +23,12 @@ pluginManagement {
         id("fabric-loom") version loom_version
         val moddev_version: String by settings
         id("net.neoforged.moddev") version moddev_version
-        val remapcheck_version: String by settings
-        id("com.kneelawk.remapcheck") version remapcheck_version
         val versioning_version: String by settings
         id("com.kneelawk.versioning") version versioning_version
         val kpublish_version: String by settings
         id("com.kneelawk.kpublish") version kpublish_version
         val submodule_version: String by settings
-        id("com.kneelawk.submodule") version submodule_version
+        id("com.kneelawk.submodule.unobf") version submodule_version
     }
 }
 
@@ -83,22 +81,18 @@ fun javadoc(enabled: Boolean, name: String) {
 val xplat = true
 val mojmap = false
 val fabric = true
-val neoforge = false
+val neoforge = true
 
 module(xplat, "core-xplat")
-module(mojmap, "core-xplat-mojmap")
 module(fabric, "core-fabric")
 module(neoforge, "core-neoforge")
 //module(xplat, "debugrender-xplat")
-//module(mojmap, "debugrender-xplat-mojmap")
 //module(fabric, "debugrender-fabric")
 //module(neoforge, "debugrender-neoforge")
 //module(xplat, "syncing-core-xplat")
-//module(mojmap, "syncing-core-xplat-mojmap")
 //module(fabric, "syncing-core-fabric")
 //module(neoforge, "syncing-core-neoforge")
 //module(xplat, "syncing-knet-xplat")
-//module(mojmap, "syncing-knet-xplat-mojmap")
 //module(fabric, "syncing-knet-fabric")
 //module(neoforge, "syncing-knet-neoforge")
 //module(fabric, "syncing-lns")

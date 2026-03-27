@@ -24,7 +24,7 @@
  */
 
 plugins {
-    id("com.kneelawk.submodule")
+    id("com.kneelawk.submodule.unobf")
     id("com.kneelawk.versioning")
 }
 
