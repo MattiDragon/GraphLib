@@ -15,6 +15,9 @@ pluginManagement {
         maven("https://maven.kneelawk.com/releases/") {
             name = "Kneelawk"
         }
+        maven("https://maven.nucleoid.xyz/releases") {
+            name = "Nucleoid"
+        }
         gradlePluginPortal()
         mavenLocal()
     }

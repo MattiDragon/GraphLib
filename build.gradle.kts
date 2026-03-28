@@ -11,6 +11,12 @@ tasks.register<Delete>("clean") {
 }
 
 allprojects {
+    repositories {
+        maven("https://maven.nucleoid.xyz/releases") {
+            name = "Nucleoid"
+        }
+    }
+
     // make builds reproducible
     tasks.withType<AbstractArchiveTask>().configureEach {
         isPreserveFileTimestamps = false
