@@ -27,6 +27,8 @@ import net.minecraft.gizmos.Gizmos;
 
 import net.minecraft.world.phys.AABB;
 
+import net.minecraft.world.phys.Vec3;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -1007,7 +1009,7 @@ public class SimpleServerGraphWorld implements AutoCloseable, GraphWorld, Server
                 if (GraphGizmo.UPDATES_ENABLED) {
                     var unitVec3 = sidedPos.pos.side().getUnitVec3();
                     Gizmos.cuboid(AABB.ofSize(
-                            sidedPos.pos.pos().getCenter().add(unitVec3.scale(0.4)),
+                            Vec3.atCenterOf(sidedPos.pos.pos()).add(unitVec3.scale(0.4)),
                             1 - unitVec3.x * 0.8,
                             1 - unitVec3.y * 0.8,
                             1 - unitVec3.z * 0.8

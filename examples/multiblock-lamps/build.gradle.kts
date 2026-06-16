@@ -1,6 +1,6 @@
-plugins {
-    id("dev.architectury.loom") apply false
-}
+//plugins {
+//    id("dev.architectury.loom") apply false
+//}
 
 /*
 plugins {

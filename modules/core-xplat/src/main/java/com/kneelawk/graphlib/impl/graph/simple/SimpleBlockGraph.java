@@ -15,6 +15,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 
+import com.mojang.datafixers.util.Pair;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -33,7 +35,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
-import net.minecraft.util.Tuple;
 
 import com.kneelawk.codextra.api.Codextra;
 import com.kneelawk.codextra.api.attach.AttachmentKey;
@@ -182,8 +183,8 @@ public class SimpleBlockGraph implements BlockGraph, BlockGraphImpl {
 
     private @NotNull Serial toSerial() {
         var existingNodes = graph.stream().toList();
-        var nodeIndexMap = IntStream.range(0, existingNodes.size()).mapToObj(i -> new Tuple<>(existingNodes.get(i), i))
-            .collect(Collectors.toMap(Tuple::getA, Tuple::getB));
+        var nodeIndexMap = IntStream.range(0, existingNodes.size()).mapToObj(i -> new Pair<>(existingNodes.get(i), i))
+            .collect(Collectors.toMap(Pair::getFirst, Pair::getSecond));
 
         List<Optional<SerialNode>> serialNodes = new ObjectArrayList<>(existingNodes.size());
         for (var node : existingNodes) {

@@ -43,7 +43,7 @@ public class GraphGizmo {
                 var center = getNodePos(holder, 0.35);
                 Gizmos.rect(center.add(-0.1), center.add(0.1), sided.getSide(), style).setAlwaysOnTop();
             } else {
-                Gizmos.cuboid(AABB.ofSize(pos.getCenter(), 0.2, 0.2, 0.2), style).setAlwaysOnTop();
+                Gizmos.cuboid(AABB.ofSize(Vec3.atCenterOf(pos), 0.2, 0.2, 0.2), style).setAlwaysOnTop();
             }
 
             connections.addAll(holder.getConnections());

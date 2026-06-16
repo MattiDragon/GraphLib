@@ -28,12 +28,12 @@ package com.kneelawk.multiblocklamps.fabric;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.MapCodec;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.Tuple;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -48,10 +48,10 @@ public class MLPlatformImpl implements MLPlatform {
                                                                MapCodec<? extends Block> codec) {
         Identifier id = id(path);
         T block = creator.apply(ResourceKey.create(Registries.BLOCK, id));
-        MultiblockLampsFabric.BLOCKS.add(new Tuple<>(id, block));
-        MultiblockLampsFabric.ITEMS.add(new Tuple<>(id,
+        MultiblockLampsFabric.BLOCKS.add(new Pair<>(id, block));
+        MultiblockLampsFabric.ITEMS.add(new Pair<>(id,
             new BlockItem(block, new Item.Properties().setId(ResourceKey.create(Registries.ITEM, id)))));
-        MultiblockLampsFabric.BLOCK_TYPES.add(new Tuple<>(id, codec));
+        MultiblockLampsFabric.BLOCK_TYPES.add(new Pair<>(id, codec));
         return () -> block;
     }
 }
